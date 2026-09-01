@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
             email,
             password: hashedPassword,
             role,
-            rollNumber
+            rollNumber: rollNumber?.trim() || undefined
         });
 
         await user.save();

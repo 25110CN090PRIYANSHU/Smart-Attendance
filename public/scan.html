@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Smart Attendance - Scan QR</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         DARK MODE
+    ========================================== -->
+
+    <button
+        id="darkModeToggle"
+        class="dark-mode-toggle"
+        onclick="toggleDarkMode()"
+        aria-label="Toggle dark mode"
+    >
+        🌙
+    </button>
+
+
+    <!-- =========================================
+         BACKGROUND
+    ========================================== -->
+
+    <div class="bg-circle circle-one"></div>
+
+    <div class="bg-circle circle-two"></div>
+
+    <div class="bg-circle circle-three"></div>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar premium-navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📊
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    Smart Attendance
+                </strong>
+
+                <small>
+                    Student Portal
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-right">
+
+            <div class="teacher-status">
+
+                <span class="online-dot"></span>
+
+                Scanner Active
+
+            </div>
+
+
+            <button
+                class="logout-top"
+                onclick="goBack()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         MAIN SCANNER PAGE
+    ========================================== -->
+
+    <main class="scanner-page">
+
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <section class="scanner-header premium-scanner-header">
+
+            <div class="scanner-main-icon">
+                📷
+            </div>
+
+
+            <p class="small-title">
+                ATTENDANCE SCANNER
+            </p>
+
+
+            <h1>
+                Scan Attendance QR
+            </h1>
+
+
+            <p class="scanner-subtitle">
+                Scan the QR code displayed by your teacher
+                to mark your attendance instantly.
+            </p>
+
+
+            <!-- SECURITY BADGE -->
+
+            <div class="scanner-security-badge">
+
+                <span>
+                    🔐
+                </span>
+
+                Secure Attendance Session
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             SCANNER CARD
+        ====================================== -->
+
+        <section class="scanner-card premium-scanner-card">
+
+
+            <!-- CARD TOP -->
+
+            <div class="scanner-card-top">
+
+                <div class="camera-title">
+
+                    <span class="camera-live-dot"></span>
+
+                    Camera Scanner
+
+                </div>
+
+
+                <div class="scanner-status-pill">
+
+                    <span></span>
+
+                    LIVE
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 CAMERA AREA
+            ================================== -->
+
+            <div class="reader-wrapper premium-reader-wrapper">
+
+                <!-- Animated corner frame -->
+
+                <div class="scanner-frame">
+
+                    <span class="corner top-left"></span>
+
+                    <span class="corner top-right"></span>
+
+                    <span class="corner bottom-left"></span>
+
+                    <span class="corner bottom-right"></span>
+
+                    <div class="scan-line"></div>
+
+                </div>
+
+
+                <!-- IMPORTANT:
+                     DO NOT CHANGE THIS ID -->
+
+                <div id="reader"></div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SCANNING STATUS
+            ================================== -->
+
+            <div class="scan-status premium-scan-status">
+
+                <div class="status-icon">
+                    🔍
+                </div>
+
+
+                <div class="status-content">
+
+                    <strong>
+                        Scanning for QR code...
+                    </strong>
+
+                    <p>
+                        Keep the QR code inside
+                        the scanning area.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 RESULT
+            ================================== -->
+
+            <div
+                id="result"
+                class="scan-result premium-scan-result"
+            ></div>
+
+
+
+            <!-- =================================
+                 SCANNER INFORMATION
+            ================================== -->
+
+            <div class="scanner-info-row">
+
+                <div class="scanner-info-item">
+
+                    <span>
+                        ⚡
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Fast
+                        </strong>
+
+                        <small>
+                            Instant scanning
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="scanner-info-item">
+
+                    <span>
+                        🔐
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Secure
+                        </strong>
+
+                        <small>
+                            Protected session
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="scanner-info-item">
+
+                    <span>
+                        ⏱️
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Limited
+                        </strong>
+
+                        <small>
+                            Scan before expiry
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 BACK BUTTON
+            ================================== -->
+
+            <button
+                class="scanner-back-button premium-scanner-back"
+                onclick="goBack()"
+            >
+
+                <span>
+                    ←
+                </span>
+
+                Back to Student Dashboard
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             SCANNING TIPS
+        ====================================== -->
+
+        <section class="scanner-tips premium-scanner-tips">
+
+
+            <div class="scanner-tip">
+
+                <div class="tip-icon">
+                    💡
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Keep the QR clear
+                    </h3>
+
+                    <p>
+                        Make sure the complete QR code
+                        is visible inside the scanner.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="scanner-tip">
+
+                <div class="tip-icon green-tip">
+                    ☀️
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Use good lighting
+                    </h3>
+
+                    <p>
+                        Avoid glare and make sure the
+                        QR code is clearly visible.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="scanner-tip">
+
+                <div class="tip-icon orange-tip">
+                    ⏱️
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Scan before expiry
+                    </h3>
+
+                    <p>
+                        Attendance QR codes are valid
+                        only for a limited period.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             FOOTER SECURITY
+        ====================================== -->
+
+        <div class="scanner-footer">
+
+            <span>
+                🔒 Secure connection
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                Smart Attendance System
+            </span>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         QR SCANNER LIBRARY
+    ========================================== -->
+
+    <script
+        src="https://unpkg.com/html5-qrcode"
+    ></script>
+
+
+    <!-- =========================================
+         YOUR SCANNER LOGIC
+    ========================================== -->
+
+    <script src="js/scan.js"></script>
+
+    <script src="js/darkmode.js"></script>
+
+    <script src="js/toast.js"></script>
+
+
+</body>
+
+</html>

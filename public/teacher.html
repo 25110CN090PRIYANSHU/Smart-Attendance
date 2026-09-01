@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Smart Attendance - Teacher Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         DARK MODE
+    ========================================== -->
+
+    <button
+        id="darkModeToggle"
+        class="dark-mode-toggle"
+        onclick="toggleDarkMode()"
+        aria-label="Toggle dark mode"
+    >
+        🌙
+    </button>
+
+
+    <!-- =========================================
+         BACKGROUND
+    ========================================== -->
+
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+    <div class="bg-circle circle-three"></div>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar premium-navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📊
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    Smart Attendance
+                </strong>
+
+                <small>
+                    Teacher Portal
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-right">
+
+            <div class="teacher-status">
+
+                <span class="online-dot"></span>
+
+                Online
+
+            </div>
+
+
+            <button
+                class="logout-top"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         MAIN DASHBOARD
+    ========================================== -->
+
+    <main class="container premium-dashboard">
+
+
+        <!-- =====================================
+             WELCOME
+        ====================================== -->
+
+        <section class="welcome premium-welcome">
+
+            <div class="welcome-content">
+
+                <p class="small-title">
+                    TEACHER DASHBOARD
+                </p>
+
+                <h1 id="teacherName">
+                    Welcome, Teacher 👋
+                </h1>
+
+                <p class="welcome-text">
+                    Create a live attendance session,
+                    display your QR code and monitor
+                    your students in real time.
+                </p>
+
+            </div>
+
+
+            <div class="welcome-badge">
+
+                <span>
+                    ⚡
+                </span>
+
+                Live Attendance
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             STATISTICS
+        ====================================== -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    📚
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Sessions
+                    </span>
+
+                    <strong class="stat-number">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    👨‍🎓
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Students
+                    </span>
+
+                    <strong class="stat-number">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Present
+                    </span>
+
+                    <strong class="stat-number">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    📈
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Attendance
+                    </span>
+
+                    <strong class="stat-number">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================
+             MAIN DASHBOARD GRID
+        ====================================== -->
+
+        <div class="dashboard-grid premium-grid">
+
+
+            <!-- =================================
+                 CREATE SESSION CARD
+            ================================== -->
+
+            <section class="card create-card premium-card">
+
+
+                <div class="card-top">
+
+                    <div class="card-icon purple">
+                        📚
+                    </div>
+
+                    <span class="card-number">
+                        01
+                    </span>
+
+                </div>
+
+
+                <div class="card-heading">
+
+                    <p class="small-title">
+                        NEW SESSION
+                    </p>
+
+                    <h2>
+                        Create Attendance
+                    </h2>
+
+                </div>
+
+
+                <p class="card-description">
+                    Generate a secure QR code for your
+                    current class and start taking
+                    attendance instantly.
+                </p>
+
+
+                <!-- SUBJECT -->
+
+                <label for="subject">
+                    Subject
+                </label>
+
+                <div class="input-group">
+
+                    <!-- <span class="input-icon">
+                        📚
+                    </span> -->
+
+                    <input
+                        type="text"
+                        id="subject"
+                        placeholder="e.g. Data Structures"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- DURATION -->
+
+                <label for="duration">
+                    QR Validity
+                </label>
+
+                <div class="duration-wrapper">
+
+                    <input
+                        type="number"
+                        id="duration"
+                        value="2"
+                        min="1"
+                        max="60"
+                    >
+
+                    <span>
+                        minutes
+                    </span>
+
+                </div>
+
+
+                <!-- GENERATE -->
+
+                <button
+                    class="primary-button premium-button"
+                    onclick="createSession()"
+                >
+
+                    <span>
+                        ⚡
+                    </span>
+
+                    Generate QR
+
+                </button>
+
+
+                <div class="secure-note">
+
+                    <span>
+                        🔐
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Secure session
+                        </strong>
+
+                        <small>
+                            Every session receives a unique QR token.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================
+                 QR CARD
+            ================================== -->
+
+            <section
+                class="card qr-card premium-card"
+                id="qrSection"
+                style="display:none;"
+            >
+
+
+                <!-- SESSION STATUS -->
+
+                <div class="qr-status-row">
+
+                    <div class="live-badge premium-live">
+
+                        <span class="live-dot"></span>
+
+                        LIVE SESSION
+
+                    </div>
+
+                    <span class="secure-status">
+                        🔒 Secure
+                    </span>
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <h2 id="qrSubject">
+                    Attendance QR
+                </h2>
+
+
+                <p class="qr-description">
+                    Students can scan this QR code
+                    to mark their attendance.
+                </p>
+
+
+                <!-- QR CODE -->
+
+                <div class="qr-container premium-qr">
+
+                    <div class="qr-glow"></div>
+
+                    <img
+                        id="qrImage"
+                        class="qr"
+                        alt="Attendance QR Code"
+                    >
+
+                </div>
+
+
+                <!-- QR INSTRUCTION -->
+
+                <p class="qr-instruction">
+                    📱 Ask students to scan this code
+                </p>
+
+
+                <!-- EXPIRY -->
+
+                <div class="expiry-box premium-expiry">
+
+                    <span class="expiry-icon">
+                        ⏱️
+                    </span>
+
+                    <div>
+
+                        <small>
+                            QR expires in
+                        </small>
+
+                        <p id="expiry">
+                            --
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VIEW ATTENDANCE -->
+
+                <button
+                    class="attendance-button premium-attendance-button"
+                    onclick="viewAttendance()"
+                >
+
+                    <span>
+                        📊
+                    </span>
+
+                    View Attendance
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </section>
+
+
+        </div>
+
+
+        <!-- =====================================
+             FEATURES
+        ====================================== -->
+
+        <section class="features-section">
+
+
+            <div class="section-heading">
+
+                <p class="small-title">
+                    BUILT FOR SPEED
+                </p>
+
+                <h2>
+                    Everything you need
+                </h2>
+
+                <p>
+                    Simple, fast and secure attendance
+                    management for your classroom.
+                </p>
+
+            </div>
+
+
+            <div class="info-grid premium-info-grid">
+
+
+                <!-- FEATURE 1 -->
+
+                <div class="info-card premium-info-card">
+
+                    <div class="info-icon blue">
+                        🔐
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Secure
+                        </h3>
+
+                        <p>
+                            Every session gets a unique
+                            QR token for secure attendance.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 2 -->
+
+                <div class="info-card premium-info-card">
+
+                    <div class="info-icon green">
+                        ⚡
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Instant
+                        </h3>
+
+                        <p>
+                            Attendance is recorded instantly
+                            when students scan the QR.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 3 -->
+
+                <div class="info-card premium-info-card">
+
+                    <div class="info-icon orange">
+                        ⏱️
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Time Based
+                        </h3>
+
+                        <p>
+                            QR codes automatically expire
+                            after the selected duration.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             FOOTER
+        ====================================== -->
+
+        <footer class="dashboard-footer">
+
+            <span>
+                Smart Attendance
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                Teacher Portal
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/toast.js"></script>
+
+    <script src="js/teacher.js"></script>
+
+    <script src="js/darkmode.js"></script>
+
+
+</body>
+
+</html>
+```

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Smart Attendance - Student Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         DARK MODE
+    ========================================== -->
+
+    <button
+        id="darkModeToggle"
+        class="dark-mode-toggle"
+        onclick="toggleDarkMode()"
+        aria-label="Toggle dark mode"
+    >
+        🌙
+    </button>
+
+
+    <!-- =========================================
+         BACKGROUND
+    ========================================== -->
+
+    <div class="bg-circle circle-one"></div>
+
+    <div class="bg-circle circle-two"></div>
+
+    <div class="bg-circle circle-three"></div>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar premium-navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📊
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    Smart Attendance
+                </strong>
+
+                <small>
+                    Student Portal
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-right">
+
+            <div class="student-status">
+
+                <span class="online-dot"></span>
+
+                Student Portal
+
+            </div>
+
+
+            <button
+                class="logout-top"
+                onclick="logout()"
+            >
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         MAIN DASHBOARD
+    ========================================== -->
+
+    <main class="container premium-dashboard student-dashboard">
+
+
+        <!-- =====================================
+             WELCOME SECTION
+        ====================================== -->
+
+        <section class="welcome premium-welcome">
+
+            <div>
+
+                <p class="small-title">
+                    STUDENT DASHBOARD
+                </p>
+
+
+                <h1 id="studentWelcome">
+                    Welcome back, Student 👋
+                </h1>
+
+
+                <p class="welcome-text">
+                    Scan your teacher's QR code to
+                    mark attendance quickly and securely.
+                </p>
+
+            </div>
+
+
+            <div class="welcome-badge student-welcome-badge">
+
+                <span>
+                    🎓
+                </span>
+
+                Student
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             STUDENT INFORMATION
+        ====================================== -->
+
+        <section class="student-profile-card">
+
+
+            <div class="student-profile-icon">
+                👨‍🎓
+            </div>
+
+
+            <div class="student-profile-info">
+
+                <p class="small-title">
+                    YOUR ACCOUNT
+                </p>
+
+
+                <h2 id="studentName">
+                    Student
+                </h2>
+
+
+                <p id="studentEmail">
+                    Loading account information...
+                </p>
+
+            </div>
+
+
+            <div class="student-profile-status">
+
+                <span class="online-dot"></span>
+
+                Account Active
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             QUICK STATS
+        ====================================== -->
+
+        <section class="stats-grid student-stats-grid">
+
+
+            <!-- STAT 1 -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    📚
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Classes
+                    </span>
+
+                    <strong
+                        class="stat-number"
+                        id="studentClasses"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- STAT 2 -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Present
+                    </span>
+
+                    <strong
+                        class="stat-number"
+                        id="studentPresent"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- STAT 3 -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    📊
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Attendance
+                    </span>
+
+                    <strong
+                        class="stat-number"
+                        id="studentAttendance"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- STAT 4 -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    🕐
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        Last Scan
+                    </span>
+
+                    <strong
+                        class="stat-number"
+                        id="lastScan"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             MAIN ACTION GRID
+        ====================================== -->
+
+        <div class="dashboard-grid student-action-grid">
+
+
+            <!-- =================================
+                 SCAN ATTENDANCE
+            ================================== -->
+
+            <section class="card create-card premium-card student-scan-card">
+
+
+                <div class="card-top">
+
+                    <div class="card-icon purple">
+                        📷
+                    </div>
+
+
+                    <span class="card-number">
+                        01
+                    </span>
+
+                </div>
+
+
+                <h2>
+                    Mark Attendance
+                </h2>
+
+
+                <p class="card-description">
+                    Scan the QR code displayed by
+                    your teacher to mark your attendance.
+                </p>
+
+
+                <!-- SCANNER ICON -->
+
+                <div class="student-scan-visual">
+
+                    <div class="scan-visual-circle">
+
+                        <span>
+                            📷
+                        </span>
+
+                    </div>
+
+
+                    <div class="scan-visual-lines">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SCAN BUTTON -->
+
+                <button
+                    class="primary-button premium-button student-scan-button"
+                    onclick="startAttendance()"
+                >
+
+                    <span>
+                        📷
+                    </span>
+
+                    Scan Attendance QR
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+                <div class="secure-note">
+
+                    🔐
+                    Your attendance is securely recorded.
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 ATTENDANCE INFORMATION
+            ================================== -->
+
+            <section class="card premium-card student-info-card">
+
+
+                <div class="card-top">
+
+                    <div class="card-icon blue">
+                        📊
+                    </div>
+
+
+                    <span class="card-number">
+                        02
+                    </span>
+
+                </div>
+
+
+                <h2>
+                    Your Attendance
+                </h2>
+
+
+                <p class="card-description">
+                    Keep track of your attendance
+                    and stay updated with your classes.
+                </p>
+
+
+                <!-- ATTENDANCE RING -->
+
+                <div class="attendance-progress-container">
+
+                    <div class="attendance-progress-ring">
+
+                        <div class="attendance-progress-inner">
+
+                            <strong id="attendancePercentage">
+                                —
+                            </strong>
+
+                            <span>
+                                Attendance
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="attendance-progress-message">
+
+                    <span>
+                        📈
+                    </span>
+
+                    <p id="attendanceMessage">
+                        Keep attending your classes regularly.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================
+             HOW IT WORKS
+        ====================================== -->
+
+        <section class="features-section student-how-section">
+
+
+            <div class="section-heading">
+
+                <p class="small-title">
+                    SIMPLE & FAST
+                </p>
+
+
+                <h2>
+                    How attendance works
+                </h2>
+
+            </div>
+
+
+            <div class="info-grid premium-info-grid">
+
+
+                <!-- STEP 1 -->
+
+                <div class="info-card premium-info-card">
+
+                    <div class="info-icon purple">
+                        1
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Open Scanner
+                        </h3>
+
+                        <p>
+                            Click the Scan Attendance
+                            button to open the camera.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 2 -->
+
+                <div class="info-card premium-info-card">
+
+                    <div class="info-icon blue">
+                        2
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Scan QR
+                        </h3>
+
+                        <p>
+                            Point your camera at the
+                            QR code shown by your teacher.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 3 -->
+
+                <div class="info-card premium-info-card">
+
+                    <div class="info-icon green">
+                        3
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Attendance Marked
+                        </h3>
+
+                        <p>
+                            Once verified, your attendance
+                            is recorded automatically.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SECURITY INFORMATION
+        ====================================== -->
+
+        <section class="student-security-card">
+
+            <div class="student-security-icon">
+                🔐
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Your attendance is secure
+                </h3>
+
+
+                <p>
+                    Every attendance session uses a
+                    unique QR token. Your attendance
+                    can only be recorded during an
+                    active session.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             FOOTER
+        ====================================== -->
+
+        <footer class="student-dashboard-footer">
+
+            <span>
+                © Smart Attendance
+            </span>
+
+
+            <span>
+                Secure • Fast • Reliable
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/student.js"></script>
+
+    <script src="js/darkmode.js"></script>
+
+    <script src="js/toast.js"></script>
+
+
+    <!-- =========================================
+         STUDENT DASHBOARD LOGIC
+    ========================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const userData =
+                    localStorage.getItem("user");
+
+
+                if (!userData) {
+                    return;
+                }
+
+
+                try {
+
+                    const user =
+                        JSON.parse(userData);
+
+
+                    /*
+                     * SHOW STUDENT NAME
+                     */
+
+                    const name =
+                        document.getElementById(
+                            "studentName"
+                        );
+
+
+                    const welcome =
+                        document.getElementById(
+                            "studentWelcome"
+                        );
+
+
+                    if (user.name) {
+
+                        if (name) {
+
+                            name.innerText =
+                                user.name;
+
+                        }
+
+
+                        if (welcome) {
+
+                            welcome.innerText =
+                                `Welcome back, ${user.name} 👋`;
+
+                        }
+
+                    }
+
+
+                    /*
+                     * SHOW EMAIL
+                     */
+
+                    const email =
+                        document.getElementById(
+                            "studentEmail"
+                        );
+
+
+                    if (
+                        email &&
+                        user.email
+                    ) {
+
+                        email.innerText =
+                            user.email;
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Unable to load student information:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * OPEN SCANNER
+         */
+
+        function startAttendance() {
+
+            document.body.classList.add(
+                "page-exit"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        "scan.html";
+
+                },
+                250
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

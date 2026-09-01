@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Smart Attendance - Login</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body class="login-page">
+
+    <button
+    id="darkModeToggle"
+    class="dark-mode-toggle"
+    onclick="toggleDarkMode()"
+>
+    🌙
+</button>
+
+    <!-- Background decoration -->
+
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+
+
+    <!-- LOGIN CONTAINER -->
+
+    <main class="login-container">
+
+
+        <!-- LEFT SIDE -->
+
+        <section class="login-info">
+
+            <div class="login-brand">
+
+                <div class="login-brand-icon">
+                    📊
+                </div>
+
+                <span>
+                    Smart Attendance
+                </span>
+
+            </div>
+
+
+            <div class="login-intro">
+
+                <p class="small-title">
+                    SMART • SIMPLE • SECURE
+                </p>
+
+                <h1>
+                    Attendance made
+                    <span>simple.</span>
+                </h1>
+
+                <p>
+                    Manage classroom attendance
+                    with secure, dynamic QR codes
+                    and real-time tracking.
+                </p>
+
+            </div>
+
+
+            <!-- FEATURES -->
+
+            <div class="login-features">
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+                        📷
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            QR Attendance
+                        </h3>
+
+                        <p>
+                            Fast and contactless
+                            attendance marking.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon green-login">
+                        🔐
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Secure
+                        </h3>
+
+                        <p>
+                            Authenticated student
+                            and teacher accounts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon orange-login">
+                        ⚡
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Real-Time
+                        </h3>
+
+                        <p>
+                            Attendance is recorded
+                            instantly.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE LOGIN -->
+
+        <section class="login-card">
+
+
+            <div class="login-card-header">
+
+                <div class="login-icon">
+                    👋
+                </div>
+
+                <h2>
+                    Welcome Back
+                </h2>
+
+                <p>
+                    Login to your account
+                    to continue.
+                </p>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="input-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ✉️
+                    </span>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                class="login-button"
+                onclick="login()"
+            >
+
+                Login to Dashboard
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <!-- MESSAGE -->
+
+            <p
+                id="message"
+                class="login-message"
+            ></p>
+
+
+            <!-- REGISTER -->
+
+            <div class="register-section">
+
+                <span>
+                    Don't have an account?
+                </span>
+
+                <a href="register.html">
+                    Create Account
+                </a>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="login-security">
+
+                🔒 Your login is protected
+                and securely authenticated.
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/login.js"></script>
+   
+    <script src="js/darkmode.js"></script>
+
+</body>
+
+
+</html>
+

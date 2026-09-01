@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Smart Attendance - Attendance Overview</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- DARK MODE -->
+
+    <button
+        id="darkModeToggle"
+        class="dark-mode-toggle"
+        onclick="toggleDarkMode()"
+        aria-label="Toggle dark mode"
+    >
+        🌙
+    </button>
+
+
+    <!-- BACKGROUND -->
+
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+    <div class="bg-circle circle-three"></div>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar premium-navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📊
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    Smart Attendance
+                </strong>
+
+                <small>
+                    Teacher Portal
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-right">
+
+            <div class="teacher-status">
+
+                <span class="online-dot"></span>
+
+                Attendance Overview
+
+            </div>
+
+
+            <button
+                class="logout-top"
+                onclick="goBack()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="attendance-page">
+
+
+        <!-- HEADER -->
+
+        <section class="attendance-header">
+
+            <div>
+
+                <p class="small-title">
+                    LIVE SESSION
+                </p>
+
+                <h1>
+                    Attendance Overview
+                </h1>
+
+                <p>
+                    Monitor students who have marked
+                    their attendance in this session.
+                </p>
+
+            </div>
+
+
+            <div class="attendance-live-badge">
+
+                <span class="live-dot"></span>
+
+                LIVE
+
+            </div>
+
+        </section>
+
+
+        <!-- STAT CARDS -->
+
+        <section class="attendance-stats">
+
+
+            <div class="attendance-stat-card">
+
+                <div class="attendance-stat-icon purple">
+                    📚
+                </div>
+
+                <div>
+
+                    <span>
+                        Session
+                    </span>
+
+                    <strong id="sessionStatus">
+                        Active
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="attendance-stat-card">
+
+                <div class="attendance-stat-icon blue">
+                    👨‍🎓
+                </div>
+
+                <div>
+
+                    <span>
+                        Students Present
+                    </span>
+
+                    <strong id="presentCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="attendance-stat-card">
+
+                <div class="attendance-stat-icon green">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        Recording
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ATTENDANCE CARD -->
+
+        <section class="attendance-card">
+
+
+            <!-- CARD HEADER -->
+
+            <div class="attendance-card-header">
+
+                <div>
+
+                    <p class="small-title">
+                        STUDENT RECORDS
+                    </p>
+
+                    <h2>
+                        Today's Attendance
+                    </h2>
+
+                </div>
+
+
+                <button
+                    class="refresh-button"
+                    onclick="loadAttendance()"
+                >
+                    🔄 Refresh
+                </button>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="attendance-table-wrapper">
+
+                <table class="attendance-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Roll Number
+                            </th>
+
+                            <th>
+                                Student Name
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Marked At
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="attendanceTable">
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="loading-cell"
+                            >
+
+                                <div class="loading-spinner"></div>
+
+                                Loading attendance...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- EMPTY / INFO -->
+
+            <div class="attendance-footer">
+
+                <span>
+                    🔐 Attendance records are secured.
+                </span>
+
+                <span>
+                    Live session
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOTTOM ACTIONS -->
+
+        <section class="attendance-actions">
+
+            <button
+                class="back-dashboard-button"
+                onclick="goBack()"
+            >
+                ← Back to Teacher Dashboard
+            </button>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="js/attendance.js"></script>
+
+    <script src="js/darkmode.js"></script>
+
+</body>
+
+</html>

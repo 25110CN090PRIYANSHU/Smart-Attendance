@@ -1,289 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Smart Attendance - Login</title>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-</head>
-
-
-<body class="login-page">
-
+  <body class="login-page">
     <button
-    id="darkModeToggle"
-    class="dark-mode-toggle"
-    onclick="toggleDarkMode()"
->
-    🌙
-</button>
+      id="darkModeToggle"
+      class="dark-mode-toggle"
+      onclick="toggleDarkMode()"
+    >
+      🌙
+    </button>
 
     <!-- Background decoration -->
 
     <div class="bg-circle circle-one"></div>
     <div class="bg-circle circle-two"></div>
 
-
     <!-- LOGIN CONTAINER -->
 
     <main class="login-container">
+      <!-- LEFT SIDE -->
 
+      <section class="login-info">
+        <div class="login-brand">
+          <div class="login-brand-icon">📊</div>
 
-        <!-- LEFT SIDE -->
+          <span> Smart Attendance </span>
+        </div>
 
-        <section class="login-info">
+        <div class="login-intro">
+          <p class="small-title">SMART • SIMPLE • SECURE</p>
 
-            <div class="login-brand">
+          <h1>
+            Attendance made
+            <span>simple.</span>
+          </h1>
 
-                <div class="login-brand-icon">
-                    📊
-                </div>
+          <p>
+            Manage classroom attendance with secure, dynamic QR codes and
+            real-time tracking.
+          </p>
+        </div>
 
-                <span>
-                    Smart Attendance
-                </span>
+        <!-- FEATURES -->
 
+        <div class="login-features">
+          <div class="login-feature">
+            <div class="login-feature-icon">📷</div>
+
+            <div>
+              <h3>QR Attendance</h3>
+
+              <p>Fast and contactless attendance marking.</p>
             </div>
+          </div>
 
+          <div class="login-feature">
+            <div class="login-feature-icon green-login">🔐</div>
 
-            <div class="login-intro">
+            <div>
+              <h3>Secure</h3>
 
-                <p class="small-title">
-                    SMART • SIMPLE • SECURE
-                </p>
-
-                <h1>
-                    Attendance made
-                    <span>simple.</span>
-                </h1>
-
-                <p>
-                    Manage classroom attendance
-                    with secure, dynamic QR codes
-                    and real-time tracking.
-                </p>
-
+              <p>Authenticated student and teacher accounts.</p>
             </div>
+          </div>
 
+          <div class="login-feature">
+            <div class="login-feature-icon orange-login">⚡</div>
 
-            <!-- FEATURES -->
+            <div>
+              <h3>Real-Time</h3>
 
-            <div class="login-features">
-
-                <div class="login-feature">
-
-                    <div class="login-feature-icon">
-                        📷
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            QR Attendance
-                        </h3>
-
-                        <p>
-                            Fast and contactless
-                            attendance marking.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="login-feature">
-
-                    <div class="login-feature-icon green-login">
-                        🔐
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Secure
-                        </h3>
-
-                        <p>
-                            Authenticated student
-                            and teacher accounts.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="login-feature">
-
-                    <div class="login-feature-icon orange-login">
-                        ⚡
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Real-Time
-                        </h3>
-
-                        <p>
-                            Attendance is recorded
-                            instantly.
-                        </p>
-
-                    </div>
-
-                </div>
-
+              <p>Attendance is recorded instantly.</p>
             </div>
+          </div>
+        </div>
+      </section>
 
-        </section>
+      <!-- RIGHT SIDE LOGIN -->
 
+      <section class="login-card">
+        <div class="login-card-header">
+          <div class="login-icon">👋</div>
 
-        <!-- RIGHT SIDE LOGIN -->
+          <h2>Welcome Back</h2>
 
-        <section class="login-card">
+          <p>Login to your account to continue.</p>
+        </div>
 
+        <!-- EMAIL -->
 
-            <div class="login-card-header">
+        <div class="input-group">
+          <label for="email"> Email Address </label>
 
-                <div class="login-icon">
-                    👋
-                </div>
+          <div class="input-wrapper">
+            <span class="input-icon"> ✉️ </span>
 
-                <h2>
-                    Welcome Back
-                </h2>
+            <input type="email" id="email" placeholder="Enter your email" />
+          </div>
+        </div>
 
-                <p>
-                    Login to your account
-                    to continue.
-                </p>
+        <!-- PASSWORD -->
 
-            </div>
+        <div class="input-group">
+          <label for="password"> Password </label>
 
+          <div class="input-wrapper">
+            <span class="input-icon"> 🔒 </span>
 
-            <!-- EMAIL -->
-
-            <div class="input-group">
-
-                <label for="email">
-                    Email Address
-                </label>
-
-                <div class="input-wrapper">
-
-                    <span class="input-icon">
-                        ✉️
-                    </span>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- PASSWORD -->
-
-            <div class="input-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <div class="input-wrapper">
-
-                    <span class="input-icon">
-                        🔒
-                    </span>
-
-                    <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password"><button type="button" id="passwordToggle" class="password-toggle" onclick="togglePassword()">👁️</button>
-
-                </div>
-
-            </div>
-
-
-            <div class="login-options"><button type="button" class="text-button" onclick="forgotPassword()">Forgot password?</button></div>
-
-            <!-- LOGIN BUTTON -->
-
-            <button
-                class="login-button"
-                onclick="login()"
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            /><button
+              type="button"
+              id="passwordToggle"
+              class="password-toggle"
+              onclick="togglePassword()"
             >
-
-                Login to Dashboard
-
-                <span>
-                    →
-                </span>
-
+              👁️
             </button>
+          </div>
+        </div>
 
+        <div class="login-options">
+          <button type="button" class="text-button" onclick="forgotPassword()">
+            Forgot password?
+          </button>
+        </div>
 
-            <!-- MESSAGE -->
+        <!-- LOGIN BUTTON -->
 
-            <p
-                id="message"
-                class="login-message"
-            ></p>
+        <button class="login-button" onclick="login()">
+          Login to Dashboard
 
+          <span> → </span>
+        </button>
 
-            <!-- REGISTER -->
+        <!-- MESSAGE -->
 
-            <div class="register-section">
+        <p id="message" class="login-message"></p>
 
-                <span>
-                    Don't have an account?
-                </span>
+        <!-- REGISTER -->
 
-                <a href="register.html">
-                    Create Account
-                </a>
+        <div class="register-section">
+          <span> Don't have an account? </span>
 
-            </div>
+          <a href="register.html"> Create Account </a>
+        </div>
 
+        <!-- SECURITY -->
 
-            <!-- SECURITY -->
-
-            <div class="login-security">
-
-                🔒 Your login is protected
-                and securely authenticated.
-
-            </div>
-
-        </section>
-
+        <div class="login-security">
+          🔒 Your login is protected and securely authenticated.
+        </div>
+      </section>
     </main>
 
-
-
-<div id="twoFactorModal" class="modal-backdrop" hidden><div class="modal-card"><button class="modal-close" onclick="close2FA()">×</button><p class="small-title">ADMIN SECURITY</p><h2>Enter verification code</h2><p class="card-description">A 6-digit code was sent to the admin email when SMTP is configured.</p><input id="twoFactorCode" class="search-input" maxlength="6" inputmode="numeric" placeholder="123456"><button class="primary-button" style="margin-top:12px;width:100%" onclick="verify2FA()">Verify & Login</button><p id="twoFactorMessage" class="form-message"></p></div></div>
+    <div id="twoFactorModal" class="modal-backdrop" hidden>
+      <div class="modal-card">
+        <button class="modal-close" onclick="close2FA()">×</button>
+        <p class="small-title">ADMIN SECURITY</p>
+        <h2>Enter verification code</h2>
+        <p class="card-description">
+          A 6-digit code was sent to the admin email when SMTP is configured.
+        </p>
+        <input
+          id="twoFactorCode"
+          class="search-input"
+          maxlength="6"
+          inputmode="numeric"
+          placeholder="123456"
+        /><button
+          class="primary-button"
+          style="margin-top: 12px; width: 100%"
+          onclick="verify2FA()"
+        >
+          Verify & Login
+        </button>
+        <p id="twoFactorMessage" class="form-message"></p>
+      </div>
+    </div>
     <script src="js/login.js"></script>
-   
+
     <script src="js/darkmode.js"></script>
-
-</body>
-
-
+  </body>
 </html>
-

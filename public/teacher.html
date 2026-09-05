@@ -1,7 +1,193 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SmartAttend X 4.0 — Teacher</title><link rel="stylesheet" href="css/style.css"></head><body><button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button><div class="bg-circle circle-one"></div><div class="bg-circle circle-two"></div>
-<nav class="navbar premium-navbar"><div class="brand"><div class="brand-icon">🛡️</div><div class="brand-text"><strong>SmartAttend X</strong><small>Teacher Command Center</small></div></div><div class="nav-right"><span class="student-status"><span class="online-dot"></span>Teacher Portal</span><button class="logout-top" onclick="logout()">Logout</button></div></nav>
-<main class="container premium-dashboard"><section class="welcome premium-welcome"><div><p class="small-title">LIVE CLASS CONTROL</p><h1 id="teacherName">Welcome, Teacher 👋</h1><p class="welcome-text">Start a secure class, display the rotating QR and monitor attendance live.</p></div><div class="welcome-badge">🛡️ Anti-Proxy Enabled</div></section>
-<div class="dashboard-grid"><section class="card premium-card"><p class="small-title">01 · CLASS SETUP</p><h2>Start a secure session</h2><div class="form-grid"><input id="subject" placeholder="Subject" required><input id="room" placeholder="Room / Lab"><input id="branch" placeholder="Branch e.g. CSE"><input id="year" placeholder="Year e.g. 2nd"><input id="section" placeholder="Section e.g. A"><input id="duration" type="number" min="1" max="180" value="60" placeholder="Duration (min)"><input id="qrInterval" type="number" min="5" max="60" value="10" placeholder="QR refresh (sec)"><input id="lateAfter" type="number" min="0" max="120" value="10" placeholder="Late after (min)"><input id="radiusMeters" type="number" min="10" max="1000" value="100" placeholder="GPS radius (m)"></div><div class="check-row"><label><input id="requireLocation" type="checkbox"> Require classroom GPS</label><label><input id="requireDevice" type="checkbox" checked> Require trusted device</label></div><div class="button-row"><button class="secondary-button" onclick="captureClassroomLocation()">📍 Use my location</button><button id="createSessionButton" class="primary-button" onclick="createSession()">⚡ Generate Secure QR</button></div><p id="locationText" class="form-message">Not configured — location checks are off.</p><span id="locationStatus" class="pill">Optional</span></section>
-<section class="card premium-card"><p class="small-title">02 · LIVE QR</p><h2 id="qrSubject">No active class</h2><div id="qrSection" style="display:none"><div class="qr-live-box"><img id="qrImage" alt="Live attendance QR"><div class="qr-meta"><strong>Refreshes in <span id="qrRefresh">—</span></strong><span>Session ends <b id="sessionEnds">—</b></span><span id="teacherLocationCheck">✓ Location: optional</span></div></div><div class="dashboard-grid live-mini"><div class="stat-card"><span class="stat-label">Present</span><strong class="stat-number" id="livePresent">0</strong></div><div class="stat-card"><span class="stat-label">Flagged</span><strong class="stat-number" id="liveFlagged">0</strong></div></div><div class="button-row"><button class="attendance-button primary-button" onclick="viewAttendance()">📊 Live Attendance</button><button class="secondary-button" onclick="finalizeSession()">✓ Finalize & Mark Absentees</button><button class="secondary-button danger-button" onclick="closeSession()">End Session</button></div><p class="secure-note">QR tokens rotate cryptographically. Suspicious scans are flagged instead of silently accepted.</p></div><div id="noSession" class="empty-state">Start a class to display its secure QR.</div></section></div>
-<section class="card premium-card"><div class="section-row"><div><p class="small-title">03 · TODAY'S PLAN</p><h2>My timetable</h2></div><button class="secondary-button" onclick="loadTimetable()">Refresh</button></div><div class="attendance-table-wrapper"><table class="attendance-table"><thead><tr><th>Day</th><th>Time</th><th>Subject</th><th>Room</th></tr></thead><tbody id="teacherTimetable"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
-</main><script src="js/toast.js"></script><script src="js/teacher.js"></script><script src="js/darkmode.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SmartAttend X — Teacher</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <button
+      id="darkModeToggle"
+      class="dark-mode-toggle"
+      onclick="toggleDarkMode()"
+    >
+      🌙
+    </button>
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+    <nav class="navbar premium-navbar">
+      <div class="brand">
+        <div class="brand-icon">🛡️</div>
+        <div class="brand-text">
+          <strong>SmartAttend X</strong><small>Teacher Command Center</small>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="student-status"
+          ><span class="online-dot"></span>Teacher Portal</span
+        ><button class="logout-top" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+    <main class="container premium-dashboard">
+      <section class="welcome premium-welcome">
+        <div>
+          <p class="small-title">LIVE CLASS CONTROL</p>
+          <h1 id="teacherName">Welcome, Teacher 👋</h1>
+          <p class="welcome-text">
+            Start a secure class, display the rotating QR and monitor attendance
+            live.
+          </p>
+        </div>
+        <div class="welcome-badge">🛡️ Anti-Proxy Enabled</div>
+      </section>
+      <div class="dashboard-grid">
+        <section class="card premium-card">
+          <p class="small-title">01 · CLASS SETUP</p>
+          <h2>Start a secure session</h2>
+          <div class="form-grid">
+            <input id="subject" placeholder="Subject" required /><input
+              id="room"
+              placeholder="Room / Lab"
+            /><input id="branch" placeholder="Branch e.g. CSE" /><input
+              id="year"
+              placeholder="Year e.g. 2nd"
+            /><input id="section" placeholder="Section e.g. A" /><input
+              id="duration"
+              type="number"
+              min="1"
+              max="180"
+              value="60"
+              placeholder="Duration (min)"
+            /><input
+              id="qrInterval"
+              type="number"
+              min="5"
+              max="60"
+              value="10"
+              placeholder="QR refresh (sec)"
+            /><input
+              id="lateAfter"
+              type="number"
+              min="0"
+              max="120"
+              value="10"
+              placeholder="Late after (min)"
+            /><input
+              id="radiusMeters"
+              type="number"
+              min="10"
+              max="1000"
+              value="100"
+              placeholder="GPS radius (m)"
+            />
+          </div>
+          <div class="check-row">
+            <label
+              ><input id="requireLocation" type="checkbox" /> Require classroom
+              GPS</label
+            ><label
+              ><input id="requireDevice" type="checkbox" checked /> Require
+              trusted device</label
+            >
+          </div>
+          <div class="button-row">
+            <button
+              class="secondary-button"
+              onclick="captureClassroomLocation()"
+            >
+              📍 Use my location</button
+            ><button
+              id="createSessionButton"
+              class="primary-button"
+              onclick="createSession()"
+            >
+              ⚡ Generate Secure QR
+            </button>
+          </div>
+          <p id="locationText" class="form-message">
+            Not configured — location checks are off.
+          </p>
+          <span id="locationStatus" class="pill">Optional</span>
+        </section>
+        <section class="card premium-card">
+          <p class="small-title">02 · LIVE QR</p>
+          <h2 id="qrSubject">No active class</h2>
+          <div id="qrSection" style="display: none">
+            <div class="qr-live-box">
+              <img id="qrImage" alt="Live attendance QR" />
+              <div class="qr-meta">
+                <strong>Refreshes in <span id="qrRefresh">—</span></strong
+                ><span>Session ends <b id="sessionEnds">—</b></span
+                ><span id="teacherLocationCheck">✓ Location: optional</span>
+              </div>
+            </div>
+            <div class="dashboard-grid live-mini">
+              <div class="stat-card">
+                <span class="stat-label">Present</span
+                ><strong class="stat-number" id="livePresent">0</strong>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Flagged</span
+                ><strong class="stat-number" id="liveFlagged">0</strong>
+              </div>
+            </div>
+            <div class="button-row">
+              <button
+                class="attendance-button primary-button"
+                onclick="viewAttendance()"
+              >
+                📊 Live Attendance</button
+              ><button class="secondary-button" onclick="finalizeSession()">
+                ✓ Finalize & Mark Absentees</button
+              ><button
+                class="secondary-button danger-button"
+                onclick="closeSession()"
+              >
+                End Session
+              </button>
+            </div>
+            <p class="secure-note">
+              QR tokens rotate cryptographically. Suspicious scans are flagged
+              instead of silently accepted.
+            </p>
+          </div>
+          <div id="noSession" class="empty-state">
+            Start a class to display its secure QR.
+          </div>
+        </section>
+      </div>
+      <section class="card premium-card">
+        <div class="section-row">
+          <div>
+            <p class="small-title">03 · TODAY'S PLAN</p>
+            <h2>My timetable</h2>
+          </div>
+          <button class="secondary-button" onclick="loadTimetable()">
+            Refresh
+          </button>
+        </div>
+        <div class="attendance-table-wrapper">
+          <table class="attendance-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Subject</th>
+                <th>Room</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTimetable">
+              <tr>
+                <td colspan="4">Loading…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="js/toast.js"></script>
+    <script src="js/teacher.js"></script>
+    <script src="js/darkmode.js"></script>
+  </body>
+</html>

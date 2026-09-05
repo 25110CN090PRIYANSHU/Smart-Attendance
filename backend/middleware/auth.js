@@ -2,55 +2,25 @@ const jwt = require("jsonwebtoken");
 
 function authenticate(req, res, next) {
     try {
-        const token = req.headers.authorization?.split(" ")[1];
+        const header = req.headers.authorization || "";
+        const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+        if (!token) return res.status(401).json({ message: "Authentication required" });
 
-        if (!token) {
-            return res.status(401).json({
-                message: "Authentication required"
-            });
-        }
-
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
-
-        req.user = decoded;
-
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
         next();
-
     } catch (error) {
-
-        return res.status(401).json({
-            message: "Invalid or expired token"
-        });
+        return res.status(401).json({ message: "Invalid or expired token" });
     }
 }
 
 function teacherOnly(req, res, next) {
-
-    if (req.user.role !== "teacher") {
-        return res.status(403).json({
-            message: "Teacher access required"
-        });
-    }
-
+    if (req.user.role !== "teacher") return res.status(403).json({ message: "Teacher access required" });
     next();
 }
 
 function studentOnly(req, res, next) {
-
-    if (req.user.role !== "student") {
-        return res.status(403).json({
-            message: "Student access required"
-        });
-    }
-
+    if (req.user.role !== "student") return res.status(403).json({ message: "Student access required" });
     next();
 }
 
-module.exports = {
-    authenticate,
-    teacherOnly,
-    studentOnly
-};
+module.exports = { authenticate, teacherOnly, studentOnly };

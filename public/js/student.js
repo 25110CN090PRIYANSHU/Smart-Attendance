@@ -1,239 +1,29 @@
-// =====================================================
-// STUDENT AUTHENTICATION
-// =====================================================
-
 const studentToken = localStorage.getItem("token");
-
 let studentUser = null;
+try { studentUser = JSON.parse(localStorage.getItem("user")); } catch (_) {}
+if (!studentToken || !studentUser || studentUser.role !== "student") { localStorage.clear(); window.location.href = "index.html"; }
+const $ = id => document.getElementById(id);
 
-try {
-    studentUser = JSON.parse(
-        localStorage.getItem("user")
-    );
-} catch (error) {
-    console.error("Invalid student data:", error);
+function openScanner() { window.location.href = "scan.html"; }
+function logout() { ["token","user","sessionId","attendanceSession"].forEach(k => localStorage.removeItem(k)); window.location.href = "index.html"; }
+
+async function loadStudentSummary() {
+    try {
+        const response = await fetch("/api/attendance/student/me", { headers: { Authorization: `Bearer ${studentToken}` } });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.message || "Unable to load attendance");
+        $("studentClasses").textContent = data.totalSessions ?? 0;
+        $("studentPresent").textContent = data.present ?? 0;
+        $("studentAttendance").textContent = `${data.percentage ?? 0}%`;
+        $("attendancePercentage").textContent = `${data.percentage ?? 0}%`;
+        $("lastScan").textContent = data.lastScan ? new Date(data.lastScan).toLocaleDateString() : "—";
+        const p = Number(data.percentage || 0);
+        $("attendanceMessage").textContent = p >= 75 ? "Good attendance. Keep it consistent." : p >= 60 ? "Your attendance is getting low. Try not to miss upcoming classes." : "Low attendance detected. Attend upcoming classes regularly.";
+        const history = $("studentHistory");
+        if (!data.records?.length) { history.innerHTML = `<tr><td colspan="4" class="loading-cell">No attendance records yet.</td></tr>`; return; }
+        history.innerHTML = data.records.slice(0, 30).map(r => `<tr><td><strong>${escapeHTML(r.subject)}</strong></td><td>${new Date(r.markedAt).toLocaleString()}</td><td><span class="present-badge">● ${escapeHTML(r.status)}</span></td><td>${Number(r.riskScore || 0) >= 50 ? "⚠️ Review" : "✓ Low"}</td></tr>`).join("");
+    } catch (error) { console.error(error); $("attendanceMessage").textContent = "Could not load attendance right now."; }
 }
-
-
-// =====================================================
-// CHECK STUDENT LOGIN
-// =====================================================
-
-if (
-    !studentToken ||
-    !studentUser ||
-    studentUser.role !== "student"
-) {
-    localStorage.clear();
-    window.location.href = "index.html";
-}
-
-
-// =====================================================
-// SHOW STUDENT INFORMATION
-// =====================================================
-
-function loadStudentInformation() {
-
-    const studentName =
-        document.getElementById("studentName");
-
-    const rollNumber =
-        document.getElementById("rollNumber");
-
-
-    if (studentName) {
-
-        studentName.innerText =
-            `Welcome, ${studentUser.name}`;
-    }
-
-
-    if (rollNumber) {
-
-        rollNumber.innerText =
-            `Roll Number: ${
-                studentUser.rollNumber || "N/A"
-            }`;
-    }
-}
-
-
-// =====================================================
-// OPEN QR SCANNER
-// =====================================================
-
-function openScanner() {
-
-    // Add exit animation
-    document.body.classList.add(
-        "page-exit"
-    );
-
-
-    setTimeout(() => {
-
-        window.location.href =
-            "scan.html";
-
-    }, 250);
-}
-
-
-// =====================================================
-// LOGOUT
-// =====================================================
-
-function logout() {
-
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
-    // Keep any other application data
-    // unless you specifically want to clear it.
-
-    window.location.href =
-        "index.html";
-}
-
-
-// =====================================================
-// RESET PAGE
-// Fix blank page after browser BACK
-// =====================================================
-
-function resetStudentPage() {
-
-    const body =
-        document.body;
-
-    if (!body) {
-        return;
-    }
-
-
-    // Remove animation classes
-    body.classList.remove(
-        "page-exit"
-    );
-
-
-    body.classList.remove(
-        "page-enter"
-    );
-
-
-    // Completely restore visibility
-    body.style.opacity =
-        "1";
-
-    body.style.visibility =
-        "visible";
-
-    body.style.transform =
-        "none";
-
-    body.style.filter =
-        "none";
-
-
-    // Force all major dashboard
-    // containers to become visible
-    const containers =
-        document.querySelectorAll(
-            "main, section, nav, .container, .dashboard, .student-dashboard"
-        );
-
-
-    containers.forEach(element => {
-
-        element.style.visibility =
-            "visible";
-
-        element.style.opacity =
-            "1";
-
-        element.style.transform =
-            "none";
-
-    });
-}
-
-
-// =====================================================
-// PAGE INITIALIZATION
-// =====================================================
-
-function initializeStudentDashboard() {
-
-    loadStudentInformation();
-
-    resetStudentPage();
-
-}
-
-
-// =====================================================
-// NORMAL PAGE LOAD
-// =====================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        initializeStudentDashboard();
-
-    }
-);
-
-
-// =====================================================
-// BROWSER BACK / FORWARD
-// =====================================================
-
-window.addEventListener(
-    "pageshow",
-    () => {
-
-        // Small delay allows the browser
-        // to finish restoring the page.
-        setTimeout(() => {
-
-            initializeStudentDashboard();
-
-        }, 50);
-
-    }
-);
-
-
-// =====================================================
-// PAGE SHOW AFTER RETURNING FROM SCANNER
-// =====================================================
-
-window.addEventListener(
-    "focus",
-    () => {
-
-        resetStudentPage();
-
-    }
-);
-
-
-// =====================================================
-// BEFORE PAGE LEAVES
-// =====================================================
-
-window.addEventListener(
-    "pagehide",
-    () => {
-
-        // Do NOT leave the dashboard
-        // stuck in the exit animation.
-        document.body.classList.remove(
-            "page-exit"
-        );
-
-    }
-);
+function escapeHTML(value) { return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
+document.addEventListener("DOMContentLoaded", () => { $("studentWelcome").textContent = `Welcome, ${studentUser.name || "Student"} 👋`; $("studentName").textContent = studentUser.name || "Student"; $("studentEmail").textContent = studentUser.email || ""; $("studentRoll").textContent = `Roll Number: ${studentUser.rollNumber || "N/A"}`; loadStudentSummary(); });
+window.addEventListener("pageshow", loadStudentSummary);

@@ -2,46 +2,24 @@ const mongoose = require("mongoose");
 
 const sessionSchema = new mongoose.Schema(
     {
-        subject: {
-            type: String,
-            required: true
+        subject: { type: String, required: true, trim: true, maxlength: 100 },
+        teacherId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        qrSecret: { type: String, required: true },
+        qrIntervalSec: { type: Number, default: 10, min: 5, max: 60 },
+        startTime: { type: Date, required: true },
+        expiryTime: { type: Date, required: true },
+        active: { type: Boolean, default: true },
+        classroomLocation: {
+            lat: { type: Number, min: -90, max: 90 },
+            lng: { type: Number, min: -180, max: 180 },
+            radiusMeters: { type: Number, min: 10, max: 1000, default: 100 }
         },
-
-        teacherId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true
-        },
-
-        // Current QR token
-        // This token changes after every successful scan.
-        sessionToken: {
-            type: String,
-            required: true,
-            unique: true
-        },
-
-        startTime: {
-            type: Date,
-            required: true
-        },
-
-        expiryTime: {
-            type: Date,
-            required: true
-        },
-
-        active: {
-            type: Boolean,
-            default: true
-        }
+        requireLocation: { type: Boolean, default: false },
+        requireDeviceBinding: { type: Boolean, default: true }
     },
-    {
-        timestamps: true
-    }
+    { timestamps: true }
 );
 
-module.exports = mongoose.model(
-    "Session",
-    sessionSchema
-);
+sessionSchema.index({ teacherId: 1, createdAt: -1 });
+
+module.exports = mongoose.model("Session", sessionSchema);

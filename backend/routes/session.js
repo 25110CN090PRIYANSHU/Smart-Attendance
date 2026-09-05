@@ -42,6 +42,11 @@ router.post("/create", authenticate, teacherOnly, async (req, res) => {
     const expiryTime = new Date(startTime.getTime() + duration * 60 * 1000);
     const session = await Session.create({
       subject,
+      subjectId: mongoose.isValidObjectId(req.body.subjectId) ? req.body.subjectId : null,
+      room: String(req.body.room || "").trim(),
+      branch: String(req.body.branch || "").trim(),
+      year: String(req.body.year || "").trim(),
+      section: String(req.body.section || "").trim(),
       teacherId: req.user.id,
       qrSecret: crypto.randomBytes(32).toString("hex"),
       qrIntervalSec,
@@ -55,7 +60,7 @@ router.post("/create", authenticate, teacherOnly, async (req, res) => {
     });
 
     const qr = await buildQr(session);
-    res.status(201).json({ message: "Attendance session created", sessionId: session._id, subject: session.subject, startTime, expiryTime, qrIntervalSec, lateAfterMinutes, requireLocation: session.requireLocation, requireDeviceBinding: session.requireDeviceBinding, classroomLocation: session.classroomLocation || null, qrCode: qr.qrCode, qrSlot: qr.slot });
+    res.status(201).json({ message: "Attendance session created", sessionId: session._id, subject: session.subject, room: session.room, branch: session.branch, year: session.year, section: session.section, startTime, expiryTime, qrIntervalSec, lateAfterMinutes, requireLocation: session.requireLocation, requireDeviceBinding: session.requireDeviceBinding, classroomLocation: session.classroomLocation || null, qrCode: qr.qrCode, qrSlot: qr.slot });
   } catch (error) {
     console.error("Create Session Error:", error);
     res.status(500).json({ message: "Failed to create attendance session" });

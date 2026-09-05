@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const sessionSchema = new mongoose.Schema(
   {
     subject: { type: String, required: true, trim: true, maxlength: 100 },
+    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject", default: null },
+    room: { type: String, default: "" },
+    branch: { type: String, default: "" },
+    year: { type: String, default: "" },
+    section: { type: String, default: "" },
     teacherId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     qrSecret: { type: String, required: true },
     qrIntervalSec: { type: Number, default: 10, min: 5, max: 60 },

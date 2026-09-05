@@ -1,33 +1,8 @@
-const studentToken = localStorage.getItem("token");
-let studentUser = null;
-try { studentUser = JSON.parse(localStorage.getItem("user")); } catch (_) {}
-if (!studentToken || !studentUser || studentUser.role !== "student") { localStorage.clear(); window.location.href = "index.html"; }
-const $ = id => document.getElementById(id);
-
-function openScanner() { window.location.href = "scan.html"; }
-function logout() { ["token","user","sessionId","attendanceSession"].forEach(k => localStorage.removeItem(k)); window.location.href = "index.html"; }
-
-async function loadStudentSummary() {
-    try {
-        const response = await fetch("/api/attendance/student/me", { headers: { Authorization: `Bearer ${studentToken}` } });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.message || "Unable to load attendance");
-        $("studentClasses").textContent = data.totalSessions ?? 0;
-        $("studentPresent").textContent = data.present ?? 0;
-        $("studentAttendance").textContent = `${data.percentage ?? 0}%`;
-        $("attendancePercentage").textContent = `${data.percentage ?? 0}%`;
-        $("lastScan").textContent = data.lastScan ? new Date(data.lastScan).toLocaleDateString() : "—";
-        const p = Number(data.percentage || 0);
-        $("attendanceMessage").textContent = p >= 75 ? "Good attendance. Keep it consistent." : p >= 60 ? "Your attendance is getting low. Try not to miss upcoming classes." : "Low attendance detected. Attend upcoming classes regularly.";
-        const subjectBox = $("subjectBreakdown");
-        if (subjectBox) {
-            subjectBox.innerHTML = data.subjects?.length ? data.subjects.map(x => `<div class="info-card premium-info-card"><div class="info-icon blue">${Number(x.percentage || 0)}%</div><div><h3>${escapeHTML(x.subject)}</h3><p>${x.present}/${x.total} counted • ${x.absent} absent • ${x.late} late${x.flagged ? ` • ${x.flagged} flagged` : ""}</p></div></div>`).join("") : `<div class="info-card premium-info-card"><p>No completed subjects yet.</p></div>`;
-        }
-        const history = $("studentHistory");
-        if (!data.records?.length) { history.innerHTML = `<tr><td colspan="4" class="loading-cell">No attendance records yet.</td></tr>`; return; }
-        history.innerHTML = data.records.slice(0, 30).map(r => `<tr><td><strong>${escapeHTML(r.subject)}</strong></td><td>${new Date(r.markedAt).toLocaleString()}</td><td><span class="present-badge">● ${escapeHTML(r.status)}</span></td><td>${Number(r.riskScore || 0) >= 50 ? "⚠️ Review" : "✓ Low"}</td></tr>`).join("");
-    } catch (error) { console.error(error); $("attendanceMessage").textContent = "Could not load attendance right now."; }
-}
-function escapeHTML(value) { return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
-document.addEventListener("DOMContentLoaded", () => { $("studentWelcome").textContent = `Welcome, ${studentUser.name || "Student"} 👋`; $("studentName").textContent = studentUser.name || "Student"; if (studentUser.profilePicture) { $("studentProfilePicture").src = studentUser.profilePicture; $("studentProfilePicture").style.display="block"; $("studentProfilePicture").nextElementSibling.style.display="none"; } $("studentEmail").textContent = studentUser.email || ""; $("studentRoll").textContent = `Roll Number: ${studentUser.rollNumber || "N/A"}`; loadStudentSummary(); });
-window.addEventListener("pageshow", loadStudentSummary);
+const token=localStorage.getItem('token');let user=null;try{user=JSON.parse(localStorage.getItem('user'))}catch(_){}if(!token||!user||user.role!=='student'){localStorage.clear();location.href='index.html'}const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+async function api(url,opt={}){opt.headers={...(opt.headers||{}),Authorization:`Bearer ${token}`};const r=await fetch(url,opt);const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.message||'Request failed');return d}
+async function loadStudentData(){try{const d=await api('/api/advanced/student/analytics');$('studentAttendance').textContent=`${d.percentage}%`;$('studentPresent').textContent=d.present;$('studentStreak').textContent=`${d.streak}`;$('needed75').textContent=d.neededFor75===0?'✓':d.neededFor75;$('attendancePercentage').textContent=`${d.percentage}%`;$('attendanceMessage').textContent=d.percentage>=75?'🟢 You are above the 75% target.':`⚠️ Attendance shortage: ${d.neededFor75} future positive classes needed to reach 75%.`;$('attendanceBar').style.width=`${Math.min(100,d.percentage)}%`;$('monthlyScans').textContent=d.monthlyScans;$('subjectBreakdown').innerHTML=d.subjects.map(s=>`<div class="info-card premium-info-card"><div class="info-icon ${s.percentage<75?'orange':'green'}">${s.percentage}%</div><div><h3>${esc(s.subject)}</h3><p>${s.present}/${s.total} positive • ${s.late} late • ${s.rejected} absent/rejected</p></div></div>`).join('')||'<div class="info-card"><p>No finalized class data yet.</p></div>';
+const old=await api('/api/attendance/student/me');$('studentHistory').innerHTML=old.records.map(r=>`<tr><td>${esc(r.subject)}</td><td>${new Date(r.markedAt).toLocaleString()}</td><td>${esc(r.status)}</td><td>${Number(r.riskScore||0)}/100</td></tr>`).join('')||'<tr><td colspan="4">No attendance records yet.</td></tr>';}catch(e){showToast(e.message,'error')}}
+async function loadProfile(){try{const d=await api('/api/auth/me');if(d.user)user=d.user}catch(_){}$('studentWelcome').textContent=`Welcome, ${user.name||'Student'} 👋`;$('studentName').textContent=user.name||'Student';$('studentEmail').textContent=user.email||'';$('studentRoll').textContent=`Roll Number: ${user.rollNumber||'—'}`;if(user.profilePicture){$('studentProfilePicture').src=user.profilePicture;$('studentProfilePicture').style.display='block'}}
+async function loadNotifications(){try{const d=await api('/api/advanced/notifications');$('notifications').innerHTML=d.notifications.map(n=>`<div class="smart-list-item"><div><strong>${n.read?'':'🔔 '}${esc(n.title)}</strong><small>${esc(n.message)} • ${new Date(n.createdAt).toLocaleString()}</small></div><span class="pill">${esc(n.type)}</span></div>`).join('')||'<p>No notifications.</p>'}catch(e){console.error(e)}}
+async function logoutAll(){if(!confirm("Revoke all active logins for this account?"))return;try{await api("/api/auth/logout-all",{method:"POST"});showToast("All other sessions revoked. You will need to log in again on this device.","success");}catch(e){showToast(e.message,"error")}}window.logoutAll=logoutAll;
+function openScanner(){location.href='scan.html'}function logout(){localStorage.clear();location.href='index.html'}window.openScanner=openScanner;window.logout=logout;window.loadStudentData=loadStudentData;document.addEventListener('DOMContentLoaded',()=>{loadProfile();loadStudentData();loadNotifications()});

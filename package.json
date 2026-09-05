@@ -1,7 +1,7 @@
 {
   "name": "smart-attendance",
-  "version": "3.1.0",
-  "description": "SmartAttend X 3.1 - admin panel, profile pictures, secure QR attendance, risk review and password recovery",
+  "version": "4.0.0",
+  "description": "SmartAttend X 4.0 - complete academic attendance platform with analytics, timetable, real-time monitoring, anti-proxy security and AI assistant",
   "main": "index.js",
   "scripts": {
     "start": "node backend/server.js",

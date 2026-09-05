@@ -65,6 +65,8 @@ router.patch("/users/:id", async (req, res) => {
   } catch (e) { console.error(e); res.status(500).json({ message: "Failed to update user" }); }
 });
 
+router.post("/users/:id/reset-device", async (req,res)=>{try{const user=await User.findByIdAndUpdate(req.params.id,{deviceIdHash:null,deviceBoundAt:null},{new:true});if(!user)return res.status(404).json({message:"User not found"});await log(req,"Reset trusted device","User",user._id,"Device binding cleared");res.json({message:"Trusted device reset"});}catch(e){res.status(500).json({message:"Failed to reset device"});}});
+
 router.delete("/users/:id", async (req, res) => {
   try {
     if (String(req.params.id) === String(req.user.id)) return res.status(400).json({ message: "You cannot delete your own admin account" });

@@ -1,369 +1,261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Smart Attendance - Register</title>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-</head>
-
-
-<body class="register-page">
-
+  <body class="register-page">
     <button
-    id="darkModeToggle"
-    class="dark-mode-toggle"
-    onclick="toggleDarkMode()"
->
-    🌙
-</button>
+      id="darkModeToggle"
+      class="dark-mode-toggle"
+      onclick="toggleDarkMode()"
+    >
+      🌙
+    </button>
 
     <!-- Background -->
 
     <div class="bg-circle circle-one"></div>
     <div class="bg-circle circle-two"></div>
 
-
     <main class="register-container">
+      <!-- LEFT INFORMATION -->
 
+      <section class="register-info">
+        <div class="register-brand">
+          <div class="register-brand-icon">📊</div>
 
-        <!-- LEFT INFORMATION -->
+          <span> Smart Attendance </span>
+        </div>
 
-        <section class="register-info">
+        <div class="register-intro">
+          <p class="small-title">JOIN SMART ATTENDANCE</p>
 
-            <div class="register-brand">
+          <h1>
+            Create your
+            <span>account.</span>
+          </h1>
 
-                <div class="register-brand-icon">
-                    📊
-                </div>
+          <p>
+            Join the Smart Attendance system and make classroom attendance
+            faster, easier and more secure.
+          </p>
+        </div>
 
-                <span>
-                    Smart Attendance
-                </span>
+        <div class="register-benefits">
+          <div class="register-benefit">
+            <div class="register-benefit-icon">🎓</div>
 
+            <div>
+              <h3>Student & Teacher</h3>
+
+              <p>Separate dashboards for every role.</p>
             </div>
+          </div>
 
+          <div class="register-benefit">
+            <div class="register-benefit-icon green-register">📷</div>
 
-            <div class="register-intro">
+            <div>
+              <h3>QR Based</h3>
 
-                <p class="small-title">
-                    JOIN SMART ATTENDANCE
-                </p>
-
-                <h1>
-                    Create your
-                    <span>account.</span>
-                </h1>
-
-                <p>
-                    Join the Smart Attendance
-                    system and make classroom
-                    attendance faster, easier
-                    and more secure.
-                </p>
-
+              <p>Quick and simple attendance marking.</p>
             </div>
+          </div>
 
+          <div class="register-benefit">
+            <div class="register-benefit-icon orange-register">🔐</div>
 
-            <div class="register-benefits">
+            <div>
+              <h3>Secure</h3>
 
-                <div class="register-benefit">
-
-                    <div class="register-benefit-icon">
-                        🎓
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Student & Teacher
-                        </h3>
-
-                        <p>
-                            Separate dashboards
-                            for every role.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="register-benefit">
-
-                    <div class="register-benefit-icon green-register">
-                        📷
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            QR Based
-                        </h3>
-
-                        <p>
-                            Quick and simple
-                            attendance marking.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="register-benefit">
-
-                    <div class="register-benefit-icon orange-register">
-                        🔐
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Secure
-                        </h3>
-
-                        <p>
-                            Your account is
-                            protected with authentication.
-                        </p>
-
-                    </div>
-
-                </div>
-
+              <p>Your account is protected with authentication.</p>
             </div>
+          </div>
+        </div>
+      </section>
 
-        </section>
+      <!-- REGISTER CARD -->
 
+      <section class="register-card">
+        <div class="register-card-header">
+          <div class="register-icon">✨</div>
 
-        <!-- REGISTER CARD -->
+          <h2>Create Account</h2>
 
-        <section class="register-card">
+          <p>Fill in your details to get started.</p>
+        </div>
 
+        <!-- NAME -->
 
-            <div class="register-card-header">
+        <div class="register-input-group">
+          <label for="name"> Full Name </label>
 
-                <div class="register-icon">
-                    ✨
-                </div>
+          <div class="register-input-wrapper">
+            <span> 👤 </span>
 
-                <h2>
-                    Create Account
-                </h2>
+            <input type="text" id="name" placeholder="Enter your full name" />
+          </div>
+        </div>
 
-                <p>
-                    Fill in your details to get started.
-                </p>
+        <!-- EMAIL -->
 
-            </div>
+        <div class="register-input-group">
+          <label for="email"> Email Address </label>
 
+          <div class="register-input-wrapper">
+            <span> ✉️ </span>
 
-            <!-- NAME -->
+            <input type="email" id="email" placeholder="Enter your email" />
+          </div>
+        </div>
 
-            <div class="register-input-group">
+        <!-- PASSWORD -->
 
-                <label for="name">
-                    Full Name
-                </label>
+        <div class="register-input-group">
+          <label for="password"> Password </label>
 
-                <div class="register-input-wrapper">
+          <div class="register-input-wrapper">
+            <span> 🔒 </span>
 
-                    <span>
-                        👤
-                    </span>
-
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your full name"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- EMAIL -->
-
-            <div class="register-input-group">
-
-                <label for="email">
-                    Email Address
-                </label>
-
-                <div class="register-input-wrapper">
-
-                    <span>
-                        ✉️
-                    </span>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- PASSWORD -->
-
-            <div class="register-input-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <div class="register-input-wrapper">
-
-                    <span>
-                        🔒
-                    </span>
-
-                    <input type="password" id="password" placeholder="Create a password"><button type="button" class="password-toggle" onclick="toggleRegisterPassword()">👁️</button>
-
-                </div>
-
-            </div>
-
-
-            <!-- ROLE -->
-
-            <div class="register-input-group"><label for="profilePicture">Profile Picture <span>(required for students)</span></label><div class="register-input-wrapper"><input type="file" id="profilePicture" accept="image/jpeg,image/png,image/webp"></div><small class="field-hint">JPG, PNG or WebP • maximum 500KB</small></div>
-
-            <div class="register-input-group"><label for="branch">Branch</label><div class="register-input-wrapper"><input id="branch" placeholder="e.g. CSE"></div></div>
-            <div class="register-input-group"><label for="year">Year</label><div class="register-input-wrapper"><input id="year" placeholder="e.g. 2nd Year"></div></div>
-            <div class="register-input-group"><label for="section">Section</label><div class="register-input-wrapper"><input id="section" placeholder="e.g. A"></div></div>
-
-            <div class="register-input-group">
-                <label for="role">
-                    Account Type
-                </label>
-
-                <div class="register-input-wrapper">
-
-                    <span>
-                        🎓
-                    </span>
-
-                    <select id="role">
-
-                        <option value="student">
-                            Student
-                        </option>
-
-                        <option value="teacher">
-                            Teacher
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <!-- ROLL NUMBER -->
-
-            <div class="register-input-group">
-
-                <label for="rollNumber">
-                    Roll Number
-
-                    <small>
-                        (Student only)
-                    </small>
-
-                </label>
-
-                <div class="register-input-wrapper">
-
-                    <span>
-                        #️⃣
-                    </span>
-
-                    <input
-                        type="text"
-                        id="rollNumber"
-                        placeholder="Enter roll number"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- REGISTER BUTTON -->
-
-            <button
-                class="register-button"
-                onclick="register()"
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a password"
+            /><button
+              type="button"
+              class="password-toggle"
+              onclick="toggleRegisterPassword()"
             >
-
-                Create Account
-
-                <span>
-                    →
-                </span>
-
+              👁️
             </button>
+          </div>
+        </div>
 
+        <!-- ROLE -->
 
-            <!-- MESSAGE -->
+        <div class="register-input-group">
+          <label for="profilePicture"
+            >Profile Picture <span>(required for students)</span></label
+          >
+          <div class="register-input-wrapper">
+            <input
+              type="file"
+              id="profilePicture"
+              accept="image/jpeg,image/png,image/webp"
+            />
+          </div>
+          <small class="field-hint">JPG, PNG or WebP • maximum 500KB</small>
+        </div>
 
-            <p
-                id="message"
-                class="register-message"
-            ></p>
+        <div class="register-input-group">
+          <label for="branch">Branch</label>
+          <div class="register-input-wrapper">
+            <input id="branch" placeholder="e.g. CSE" />
+          </div>
+        </div>
+        <div class="register-input-group">
+          <label for="year">Year</label>
+          <div class="register-input-wrapper">
+            <input id="year" placeholder="e.g. 2nd Year" />
+          </div>
+        </div>
+        <div class="register-input-group">
+          <label for="section">Section</label>
+          <div class="register-input-wrapper">
+            <input id="section" placeholder="e.g. A" />
+          </div>
+        </div>
 
+        <div class="register-input-group">
+          <label for="role"> Account Type </label>
 
-            <!-- LOGIN -->
+          <div class="register-input-wrapper">
+            <span> 🎓 </span>
 
-            <div class="login-link-section">
+            <select id="role">
+              <option value="student">Student</option>
 
-                <span>
-                    Already registered?
-                </span>
+              <option value="teacher">Teacher</option>
+            </select>
+          </div>
+        </div>
 
-                <a href="index.html">
-                    Login
-                </a>
+        <!-- ROLL NUMBER -->
 
-            </div>
+        <div class="register-input-group">
+          <label for="rollNumber">
+            Roll Number
 
+            <small> (Student only) </small>
+          </label>
 
-            <!-- SECURITY -->
+          <div class="register-input-wrapper">
+            <span> #️⃣ </span>
 
-            <div class="register-security">
+            <input
+              type="text"
+              id="rollNumber"
+              placeholder="Enter roll number"
+            />
+          </div>
+        </div>
 
-                🔒 Your information is securely
-                processed.
+        <!-- teacher secret code -->
 
-            </div>
+        <div class="form-group" id="teacherCodeGroup" style="display: none">
+          <label for="teacherCode">Teacher Registration Code</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="teacherCode"
+              placeholder="Enter teacher registration code"
+              autocomplete="off"
+            />
+          </div>
+        </div>
 
-        </section>
+        <!-- REGISTER BUTTON -->
 
+        <button class="register-button" onclick="register()">
+          Create Account
+
+          <span> → </span>
+        </button>
+
+        <!-- MESSAGE -->
+
+        <p id="message" class="register-message"></p>
+
+        <!-- LOGIN -->
+
+        <div class="login-link-section">
+          <span> Already registered? </span>
+
+          <a href="index.html"> Login </a>
+        </div>
+
+        <!-- SECURITY -->
+
+        <div class="register-security">
+          🔒 Your information is securely processed.
+        </div>
+      </section>
     </main>
 
-
-    <script>function toggleRegisterPassword(){const x=document.getElementById("password");x.type=x.type==="password"?"text":"password";}</script><script src="js/register.js"></script>
+    <script>
+      function toggleRegisterPassword() {
+        const x = document.getElementById("password");
+        x.type = x.type === "password" ? "text" : "password";
+      }
+    </script>
+    <script src="js/register.js"></script>
     <script src="js/darkmode.js"></script>
-
-</body>
-
+  </body>
 </html>

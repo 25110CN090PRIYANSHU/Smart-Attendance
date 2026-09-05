@@ -5,6 +5,8 @@ const Attendance = require("../models/Attendance");
 const Session = require("../models/Session");
 const User = require("../models/User");
 const { authenticate, studentOnly, teacherOnly } = require("../middleware/auth");
+const { publish } = require("../live");
+const Notification = require("../models/Notification");
 const { getQrToken, getSlot } = require("./session");
 
 const router = express.Router();
@@ -116,6 +118,20 @@ router.post("/mark", authenticate, studentOnly, async (req, res) => {
       riskFlags: risk.flags
     });
 
+    publish(session._id, "attendance", {
+      studentId: req.user.id,
+      attendanceId: attendance._id,
+      status,
+      riskScore: risk.score,
+      markedAt: now
+    });
+    await Notification.create({
+      userId: req.user.id,
+      title: status === "Flagged" ? "Attendance needs review" : status === "Late" ? "Late attendance recorded" : "Attendance marked",
+      message: `${session.subject}: ${status}.`,
+      type: status === "Flagged" ? "warning" : "success"
+    });
+
     res.status(201).json({
       message: status === "Flagged" ? "Attendance recorded and flagged for teacher review" : status === "Late" ? "Attendance marked as late" : "Attendance marked successfully",
       attendance: { id: attendance._id, status, riskScore: risk.score, riskFlags: risk.flags, distanceMeters: cleanLocation?.distanceMeters ?? null },
@@ -144,13 +160,17 @@ router.get("/session/:sessionId/summary", authenticate, teacherOnly, async (req,
     const session = await getOwnedSession(req.params.sessionId, req.user.id);
     if (!session) return res.status(404).json({ message: "Session not found" });
     const records = await Attendance.find({ sessionId: session._id }).populate("studentId", "name email rollNumber profilePicture branch year section").sort({ markedAt: 1 });
-    const totalStudents = await User.countDocuments({ role: "student" });
+    const studentFilter = { role: "student" };
+    if (session.branch) studentFilter.branch = session.branch;
+    if (session.year) studentFilter.year = session.year;
+    if (session.section) studentFilter.section = session.section;
+    const totalStudents = await User.countDocuments(studentFilter);
     const present = records.filter(r => r.status === "Present").length;
     const late = records.filter(r => r.status === "Late").length;
     const flagged = records.filter(r => r.status === "Flagged").length;
     const excused = records.filter(r => r.status === "Excused").length;
+    const absent = records.filter(r => r.status === "Absent").length + Math.max(0, totalStudents - records.length);
     const counted = records.filter(r => isPresentStatus(r.status)).length;
-    const absent = Math.max(0, totalStudents - records.length);
     const percentage = totalStudents ? Math.round((counted / totalStudents) * 100) : 0;
     res.json({
       session: { id: session._id, subject: session.subject, active: session.active, startTime: session.startTime, expiryTime: session.expiryTime, lateAfterMinutes: session.lateAfterMinutes ?? 10 },

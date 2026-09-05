@@ -5,7 +5,7 @@ const attendanceSchema = new mongoose.Schema(
     studentId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     sessionId: { type: mongoose.Schema.Types.ObjectId, ref: "Session", required: true },
     markedAt: { type: Date, default: Date.now },
-    status: { type: String, enum: ["Present", "Late", "Flagged", "Rejected", "Excused"], default: "Present" },
+    status: { type: String, enum: ["Present", "Late", "Flagged", "Rejected", "Excused", "Absent"], default: "Present" },
     verification: {
       qr: { type: Boolean, default: false },
       location: { type: Boolean, default: false },

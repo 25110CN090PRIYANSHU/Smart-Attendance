@@ -1,36 +1,66 @@
-# SmartAttend X 3.0
+# SmartAttend X 4.0
 
-A privacy-first QR attendance system with short-lived cryptographic QR tokens, classroom geofencing, trusted-device binding, late tracking, risk scoring and teacher review.
+A production-style QR attendance platform for college classrooms. It combines dynamic cryptographic QR attendance with classroom geofencing, trusted devices, risk review, live monitoring, academic administration and attendance analytics.
 
-## 3.0 highlights
-- Server-side HMAC QR tokens that rotate every 5–60 seconds.
-- Expiring QR sessions; old screenshots are rejected after the rotation grace period.
-- Optional classroom geofencing using browser GPS.
-- Optional trusted-device binding using an HMAC hash; raw device IDs are not stored.
-- Present/Late/Flagged/Rejected/Excused workflow.
-- Teacher review actions for flagged attendance.
-- Subject-wise student attendance breakdown.
-- Session summaries, CSV export and print-to-PDF.
-- Login and attendance request rate limiting.
-- Security headers and API validation.
-- Express 4 compatibility to avoid the Router.use object error from the previous Express 5 dependency.
+## What's new in 4.0
+
+1. Complete admin control center: users, subjects, teachers, classrooms, timetable, reports and security.
+2. Attendance analytics: overall and subject-level health, streaks and 75% shortage guidance.
+3. Automatic absentee marking after a session expires, plus manual finalization.
+4. Multi-layer anti-proxy checks: rotating QR, GPS, trusted device, device sharing and impossible-movement risk signals.
+5. Trusted-device reset control for administrators.
+6. Login security: failed-login lockout, login history, session revocation, optional email verification and optional admin email 2FA.
+7. Full-screen-style live QR experience with refresh countdown and session controls.
+8. Real-time teacher attendance updates through Server-Sent Events (SSE).
+9. Configurable classroom geofence with radius.
+10. Timetable and academic scheduling with teacher/subject/room assignment.
+11. Low-attendance warnings and 75% target calculator.
+12. CSV reports that open in Excel plus browser Print-to-PDF.
+13. In-app security and attendance notifications.
+14. Responsive modern dashboard with dark mode and mobile-friendly layouts.
+15. Built-in attendance assistant for common analytics questions without requiring an external AI API.
 
 ## Run locally
-1. Install Node.js 18+.
-2. Copy `.env.example` to `.env`.
-3. Fill in `MONGO_URI`, `JWT_SECRET` and `DEVICE_HASH_SECRET`.
-4. Run `npm install`.
-5. Run `npm start`.
-6. Open `http://localhost:5000`.
 
-## Render
-Use:
-- Build command: `npm install`
-- Start command: `npm start`
-- Root directory: blank if the repository root contains `package.json`
-- Add the environment variables from `.env.example` in Render; never commit `.env`.
+```bash
+npm install
+npm run dev
+```
 
-## Important browser limitations
-GPS and camera permissions are browser-controlled. A normal web app cannot reliably read a phone's Wi-Fi BSSID, so SmartAttend does not fake Wi-Fi verification.
+Open `http://localhost:5000`.
 
-Risk scores are review signals, not proof of misconduct.
+## Required environment variables
+
+Copy `.env.example` to `.env` and set:
+
+- `MONGO_URI`
+- `JWT_SECRET` (32+ characters)
+- `DEVICE_HASH_SECRET` (32+ characters recommended)
+- `PORT` (optional; Render provides it automatically)
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+- `ADMIN_NAME`
+
+For real password reset / email verification / admin 2FA emails, configure the SMTP variables in `.env.example`.
+
+## Optional admin 2FA
+
+Set `ADMIN_2FA_ENABLED=true`. The admin receives a 6-digit code by email when SMTP is configured. In local development, the code is returned in the API response for testing when SMTP is not configured.
+
+## Important deployment note
+
+Do not commit `.env`. On Render, put environment variables in the service's Environment settings. After changing them, redeploy the service.
+
+## Architecture
+
+- Node.js + Express 4
+- MongoDB + Mongoose
+- HTML/CSS/vanilla JavaScript frontend
+- HMAC-SHA256 rotating QR tokens
+- Browser Geolocation API
+- Server-Sent Events for live attendance
+- SMTP via Nodemailer (optional)
+
+## Security note
+
+Risk scores are review signals, not proof of misconduct. A flagged attendance record should be reviewed by a teacher/admin before being rejected.

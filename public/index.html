@@ -276,6 +276,8 @@
     </main>
 
 
+
+<div id="twoFactorModal" class="modal-backdrop" hidden><div class="modal-card"><button class="modal-close" onclick="close2FA()">×</button><p class="small-title">ADMIN SECURITY</p><h2>Enter verification code</h2><p class="card-description">A 6-digit code was sent to the admin email when SMTP is configured.</p><input id="twoFactorCode" class="search-input" maxlength="6" inputmode="numeric" placeholder="123456"><button class="primary-button" style="margin-top:12px;width:100%" onclick="verify2FA()">Verify & Login</button><p id="twoFactorMessage" class="form-message"></p></div></div>
     <script src="js/login.js"></script>
    
     <script src="js/darkmode.js"></script>

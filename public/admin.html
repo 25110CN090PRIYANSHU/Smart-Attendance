@@ -1,1 +1,422 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SmartAttend X - Admin</title><link rel="stylesheet" href="css/style.css"></head><body><button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button><nav class="navbar"><div class="brand"><div class="brand-icon">📊</div>SmartAttend X Admin</div><button class="logout-top" onclick="logout()">Logout</button></nav><main class="container admin-page"><section class="welcome premium-welcome"><div><p class="small-title">ADMIN CONTROL CENTER</p><h1 id="adminWelcome">Welcome, Administrator 👋</h1><p class="welcome-text">Manage users, attendance and security from one place.</p></div><div class="welcome-badge">🛡️ Administrator</div></section><section class="stats-grid"><div class="stat-card"><div class="stat-icon purple">🎓</div><div><span class="stat-label">Students</span><strong id="studentsCount" class="stat-number">—</strong></div></div><div class="stat-card"><div class="stat-icon blue">👨‍🏫</div><div><span class="stat-label">Teachers</span><strong id="teachersCount" class="stat-number">—</strong></div></div><div class="stat-card"><div class="stat-icon green">📚</div><div><span class="stat-label">Sessions</span><strong id="sessionsCount" class="stat-number">—</strong></div></div><div class="stat-card"><div class="stat-icon orange">⚠️</div><div><span class="stat-label">Flagged</span><strong id="flaggedCount" class="stat-number">—</strong></div></div></section><section class="card premium-card"><div class="card-top"><div class="card-icon purple">👥</div><span class="card-number">USERS</span></div><div class="admin-toolbar"><input id="userSearch" class="table-search" placeholder="Search name, email or roll number" oninput="loadUsers()"><select id="roleFilter" onchange="loadUsers()"><option value="">All roles</option><option value="student">Students</option><option value="teacher">Teachers</option><option value="admin">Admins</option></select><button class="primary-button" onclick="openUserModal()">＋ Add User</button></div><div class="attendance-table-wrapper"><table class="attendance-table"><thead><tr><th>Profile</th><th>Name</th><th>Email</th><th>Role</th><th>Roll</th><th>Status</th><th>Actions</th></tr></thead><tbody id="usersTable"><tr><td colspan="7" class="loading-cell">Loading…</td></tr></tbody></table></div></section><section class="card premium-card"><div class="card-top"><div class="card-icon orange">🧾</div><span class="card-number">AUDIT</span></div><h2>Security Audit Log</h2><div class="attendance-table-wrapper"><table class="attendance-table"><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Details</th></tr></thead><tbody id="logsTable"><tr><td colspan="4" class="loading-cell">Loading…</td></tr></tbody></table></div></section></main><div id="userModal" class="modal-backdrop" hidden><div class="modal-card"><button class="modal-close" onclick="closeUserModal()">×</button><h2>Create User</h2><form id="userForm" onsubmit="createUser(event)"><input id="uName" required placeholder="Full name"><input id="uEmail" type="email" required placeholder="Email"><input id="uPassword" type="password" required minlength="6" placeholder="Temporary password"><select id="uRole"><option value="student">Student</option><option value="teacher">Teacher</option></select><input id="uRoll" placeholder="Roll number (students)"><input id="uBranch" placeholder="Branch"><input id="uYear" placeholder="Year"><input id="uSection" placeholder="Section"><input id="uPicture" type="file" accept="image/jpeg,image/png,image/webp"><button class="primary-button" type="submit">Create User</button><p id="userMessage" class="login-message"></p></form></div></div><script src="js/toast.js"></script><script src="js/admin.js"></script><script src="js/darkmode.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SmartAttend X 4.0 — Admin</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <button
+      id="darkModeToggle"
+      class="dark-mode-toggle"
+      onclick="toggleDarkMode()"
+    >
+      🌙
+    </button>
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+    <nav class="navbar premium-navbar">
+      <div class="brand">
+        <div class="brand-icon">🛡️</div>
+        <div class="brand-text">
+          <strong>SmartAttend X</strong><small>Administration 4.0</small>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="student-status"
+          ><span class="online-dot"></span>Admin Control Center</span
+        ><button class="logout-top" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+    <main class="container premium-dashboard">
+      <section class="welcome premium-welcome">
+        <div>
+          <p class="small-title">SYSTEM CONTROL CENTER</p>
+          <h1 id="adminWelcome">Welcome 👋</h1>
+          <p class="welcome-text">
+            Manage students, teachers, academics, rooms, schedules, security and
+            attendance intelligence from one place.
+          </p>
+        </div>
+        <div class="welcome-badge"><span>👑</span> Administrator</div>
+      </section>
+      <div class="dashboard-grid admin-stats">
+        <div class="stat-card">
+          <div class="stat-icon purple">🎓</div>
+          <div>
+            <span class="stat-label">Students</span
+            ><strong class="stat-number" id="studentsCount">—</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">👨‍🏫</div>
+          <div>
+            <span class="stat-label">Teachers</span
+            ><strong class="stat-number" id="teachersCount">—</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">📅</div>
+          <div>
+            <span class="stat-label">Classes</span
+            ><strong class="stat-number" id="sessionsCount">—</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">🚨</div>
+          <div>
+            <span class="stat-label">Flagged</span
+            ><strong class="stat-number" id="flaggedCount">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="tabbar">
+        <button class="tab active" data-tab="overview">Overview</button
+        ><button class="tab" data-tab="users">Users</button
+        ><button class="tab" data-tab="academics">Subjects</button
+        ><button class="tab" data-tab="rooms">Classrooms</button
+        ><button class="tab" data-tab="timetable">Timetable</button
+        ><button class="tab" data-tab="reports">Reports</button
+        ><button class="tab" data-tab="security">Security</button
+        ><button class="tab" data-tab="ai">🤖 AI Assistant</button>
+      </div>
+      <section id="tab-overview" class="tab-panel active">
+        <div class="dashboard-grid">
+          <section class="card premium-card">
+            <p class="small-title">TODAY</p>
+            <h2>Attendance pulse</h2>
+            <div class="big-metric" id="todayPercentage">—%</div>
+            <p id="todayText">Loading…</p>
+            <div class="progress-track"><span id="todayBar"></span></div>
+          </section>
+          <section class="card premium-card">
+            <p class="small-title">QUICK ACTIONS</p>
+            <h2>Control center</h2>
+            <div class="quick-grid">
+              <button class="primary-button" onclick="openUserModal()">
+                ＋ Create user</button
+              ><button
+                class="secondary-button"
+                onclick="switchTab('academics')"
+              >
+                📚 Add subject</button
+              ><button class="secondary-button" onclick="switchTab('rooms')">
+                🏫 Add classroom</button
+              ><button
+                class="secondary-button"
+                onclick="switchTab('timetable')"
+              >
+                🗓️ Build timetable
+              </button>
+            </div>
+          </section>
+        </div>
+        <section class="card premium-card">
+          <p class="small-title">AUDIT TRAIL</p>
+          <h2>Recent administrator activity</h2>
+          <div class="attendance-table-wrapper">
+            <table class="attendance-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Actor</th>
+                  <th>Action</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="logsTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <section id="tab-users" class="tab-panel">
+        <section class="card premium-card">
+          <div class="section-row">
+            <div>
+              <p class="small-title">IDENTITY MANAGEMENT</p>
+              <h2>Students & teachers</h2>
+            </div>
+            <button class="primary-button" onclick="openUserModal()">
+              ＋ Create user
+            </button>
+          </div>
+          <div class="toolbar">
+            <input
+              id="userSearch"
+              class="search-input"
+              placeholder="Search name, email or roll number"
+            /><select id="roleFilter" class="search-input">
+              <option value="">All roles</option>
+              <option value="student">Students</option>
+              <option value="teacher">Teachers</option>
+              <option value="admin">Admins</option></select
+            ><button class="secondary-button" onclick="loadUsers()">
+              Search
+            </button>
+          </div>
+          <div class="attendance-table-wrapper">
+            <table class="attendance-table">
+              <thead>
+                <tr>
+                  <th>Profile</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Roll</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <section id="tab-academics" class="tab-panel">
+        <div class="dashboard-grid">
+          <section class="card premium-card">
+            <p class="small-title">ACADEMICS</p>
+            <h2>Create subject</h2>
+            <form id="subjectForm" class="form-grid">
+              <input
+                id="subCode"
+                placeholder="Code e.g. CS301"
+                required
+              /><input id="subName" placeholder="Subject name" required /><input
+                id="subBranch"
+                placeholder="Branch e.g. CSE"
+              /><input id="subYear" placeholder="Year e.g. 2nd" /><input
+                id="subSection"
+                placeholder="Section e.g. A"
+              /><select id="subTeacher">
+                <option value="">Unassigned teacher</option></select
+              ><button class="primary-button" type="submit">
+                Create subject
+              </button>
+            </form>
+          </section>
+          <section class="card premium-card">
+            <p class="small-title">SUBJECT CATALOG</p>
+            <h2>Active subjects</h2>
+            <div id="subjectsList" class="list-stack">Loading…</div>
+          </section>
+        </div>
+      </section>
+      <section id="tab-rooms" class="tab-panel">
+        <div class="dashboard-grid">
+          <section class="card premium-card">
+            <p class="small-title">CAMPUS</p>
+            <h2>Create classroom</h2>
+            <form id="roomForm" class="form-grid">
+              <input
+                id="roomName"
+                placeholder="Room / Lab name"
+                required
+              /><input id="roomBuilding" placeholder="Building" /><input
+                id="roomFloor"
+                placeholder="Floor"
+              /><input
+                id="roomCapacity"
+                type="number"
+                min="1"
+                value="60"
+                placeholder="Capacity"
+              /><input
+                id="roomLat"
+                type="number"
+                step="any"
+                placeholder="Latitude"
+              /><input
+                id="roomLng"
+                type="number"
+                step="any"
+                placeholder="Longitude"
+              /><input
+                id="roomRadius"
+                type="number"
+                min="10"
+                value="100"
+                placeholder="Geofence radius (m)"
+              /><button class="primary-button" type="submit">
+                Create classroom
+              </button>
+            </form>
+          </section>
+          <section class="card premium-card">
+            <p class="small-title">ROOM DIRECTORY</p>
+            <h2>Active classrooms</h2>
+            <div id="roomsList" class="list-stack">Loading…</div>
+          </section>
+        </div>
+      </section>
+      <section id="tab-timetable" class="tab-panel">
+        <div class="dashboard-grid">
+          <section class="card premium-card">
+            <p class="small-title">SCHEDULE</p>
+            <h2>Add timetable slot</h2>
+            <form id="timetableForm" class="form-grid">
+              <select id="ttDay">
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option></select
+              ><input id="ttStart" type="time" required /><input
+                id="ttEnd"
+                type="time"
+                required
+              /><select id="ttSubject" required>
+                <option value="">Select subject</option></select
+              ><select id="ttTeacher" required>
+                <option value="">Select teacher</option></select
+              ><select id="ttRoom">
+                <option value="">No classroom</option></select
+              ><input id="ttBranch" placeholder="Branch" /><input
+                id="ttYear"
+                placeholder="Year"
+              /><input id="ttSection" placeholder="Section" /><button
+                class="primary-button"
+                type="submit"
+              >
+                Add slot
+              </button>
+            </form>
+          </section>
+          <section class="card premium-card">
+            <p class="small-title">WEEKLY PLAN</p>
+            <h2>Timetable</h2>
+            <div class="attendance-table-wrapper">
+              <table class="attendance-table">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                    <th>Room</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="timetableList"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section id="tab-reports" class="tab-panel">
+        <section class="card premium-card">
+          <div class="section-row">
+            <div>
+              <p class="small-title">DATA INTELLIGENCE</p>
+              <h2>Attendance report</h2>
+              <p class="card-description">
+                Download a CSV that opens directly in Excel, or print this view
+                to PDF.
+              </p>
+            </div>
+            <button class="primary-button" onclick="exportReport()">
+              ⬇ Export CSV</button
+            ><button class="secondary-button" onclick="window.print()">
+              🖨️ Print / PDF
+            </button>
+          </div>
+          <div class="attendance-table-wrapper">
+            <table class="attendance-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Roll</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Risk</th>
+                  <th>Marked</th>
+                </tr>
+              </thead>
+              <tbody id="reportTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <section id="tab-security" class="tab-panel">
+        <div class="dashboard-grid">
+          <section class="card premium-card">
+            <p class="small-title">SECURITY ENGINE</p>
+            <h2>Protection layers</h2>
+            <div class="security-list">
+              <div>🔐 Dynamic cryptographic QR</div>
+              <div>📍 Classroom geofencing</div>
+              <div>📱 Trusted-device binding</div>
+              <div>🧠 Risk scoring + review</div>
+              <div>🚦 Failed-login lockout</div>
+              <div>🧾 Audit logs + login history</div>
+              <div>🔔 In-app security notifications</div>
+              <div>🛡️ Security headers + rate limits</div>
+            </div>
+          </section>
+          <section class="card premium-card">
+            <p class="small-title">YOUR LOGINS</p>
+            <h2>Recent login history</h2>
+            <div id="loginHistory" class="list-stack">Loading…</div>
+          </section>
+        </div>
+      </section>
+      <section id="tab-ai" class="tab-panel">
+        <section class="card premium-card ai-card">
+          <p class="small-title">SMARTATTEND INTELLIGENCE</p>
+          <h2>Ask the attendance assistant</h2>
+          <p class="card-description">
+            Try “Who is below 75%?”, “How many students?”, or “Show suspicious
+            attendance”.
+          </p>
+          <div class="ai-row">
+            <input
+              id="aiQuestion"
+              class="search-input"
+              placeholder="Ask a question…"
+            /><button class="primary-button" onclick="askAI()">Ask AI</button>
+          </div>
+          <div id="aiAnswer" class="ai-answer">Ready.</div>
+        </section>
+      </section>
+    </main>
+    <div id="userModal" class="modal-backdrop" hidden>
+      <div class="modal-card">
+        <button class="modal-close" onclick="closeUserModal()">×</button>
+        <p class="small-title">IDENTITY</p>
+        <h2>Create account</h2>
+        <form id="userForm" class="form-grid">
+          <input id="uName" placeholder="Full name" required /><input
+            id="uEmail"
+            type="email"
+            placeholder="Email"
+            required
+          /><input
+            id="uPassword"
+            type="password"
+            placeholder="Password"
+            required
+          /><select id="uRole">
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option></select
+          ><input id="uRoll" placeholder="Roll number (student)" /><input
+            id="uBranch"
+            placeholder="Branch"
+          /><input id="uYear" placeholder="Year" /><input
+            id="uSection"
+            placeholder="Section"
+          /><input
+            id="uPicture"
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+          /><button class="primary-button" type="submit">Create account</button>
+        </form>
+        <p id="userMessage" class="form-message"></p>
+      </div>
+    </div>
+    <script src="js/toast.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/darkmode.js"></script>
+  </body>
+</html>

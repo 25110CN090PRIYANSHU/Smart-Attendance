@@ -235,11 +235,7 @@
                         🔒
                     </span>
 
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Create a password"
-                    >
+                    <input type="password" id="password" placeholder="Create a password"><button type="button" class="password-toggle" onclick="toggleRegisterPassword()">👁️</button>
 
                 </div>
 
@@ -248,8 +244,13 @@
 
             <!-- ROLE -->
 
-            <div class="register-input-group">
+            <div class="register-input-group"><label for="profilePicture">Profile Picture <span>(required for students)</span></label><div class="register-input-wrapper"><input type="file" id="profilePicture" accept="image/jpeg,image/png,image/webp"></div><small class="field-hint">JPG, PNG or WebP • maximum 500KB</small></div>
 
+            <div class="register-input-group"><label for="branch">Branch</label><div class="register-input-wrapper"><input id="branch" placeholder="e.g. CSE"></div></div>
+            <div class="register-input-group"><label for="year">Year</label><div class="register-input-wrapper"><input id="year" placeholder="e.g. 2nd Year"></div></div>
+            <div class="register-input-group"><label for="section">Section</label><div class="register-input-wrapper"><input id="section" placeholder="e.g. A"></div></div>
+
+            <div class="register-input-group">
                 <label for="role">
                     Account Type
                 </label>
@@ -360,7 +361,7 @@
     </main>
 
 
-    <script src="js/register.js"></script>
+    <script>function toggleRegisterPassword(){const x=document.getElementById("password");x.type=x.type==="password"?"text":"password";}</script><script src="js/register.js"></script>
     <script src="js/darkmode.js"></script>
 
 </body>

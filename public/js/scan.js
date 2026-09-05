@@ -65,10 +65,10 @@ async function onScanSuccess(decodedText) {
     processingScan = true;
     let qrData;
     try { qrData = JSON.parse(decodedText); } catch (_) { processingScan = false; return showScanError("This is not a valid SmartAttend QR."); }
-    if (qrData.v !== 2 || !qrData.sessionId || !qrData.token || !Number.isInteger(Number(qrData.slot))) { processingScan = false; return showScanError("Invalid or unsupported attendance QR."); }
+    if ((qrData.v !== 2 && qrData.v !== 3) || !qrData.sessionId || !qrData.token || !Number.isInteger(Number(qrData.slot))) { processingScan = false; return showScanError("Invalid or unsupported attendance QR."); }
 
     await stopScanner();
-    updateScannerStatus("QR verified locally", "Checking location, device trust and session security…");
+    updateScannerStatus("QR token accepted", "Checking location, device trust and session security…");
     const result = document.getElementById("result");
     if (result) result.innerHTML = `<div class="scan-processing">⏳ Verifying attendance…</div>`;
 

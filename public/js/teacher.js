@@ -45,12 +45,14 @@ async function createSession() {
     const qrIntervalSec = Number($("qrInterval").value);
     const requireLocation = $("requireLocation").checked;
     const requireDeviceBinding = $("requireDevice").checked;
+    const lateAfterMinutes = Number($("lateAfter").value);
     const radiusMeters = Number($("radiusMeters").value);
     const button = $("createSessionButton");
 
     if (!subject) return showToast("Enter a subject.", "warning");
     if (!Number.isFinite(duration) || duration < 1 || duration > 180) return showToast("Session duration must be 1–180 minutes.", "warning");
     if (!Number.isFinite(qrIntervalSec) || qrIntervalSec < 5 || qrIntervalSec > 60) return showToast("QR interval must be 5–60 seconds.", "warning");
+    if (!Number.isFinite(lateAfterMinutes) || lateAfterMinutes < 0 || lateAfterMinutes > 120) return showToast("Late threshold must be 0–120 minutes.", "warning");
     if (!Number.isFinite(radiusMeters) || radiusMeters < 10 || radiusMeters > 1000) return showToast("Radius must be 10–1000 meters.", "warning");
     if (requireLocation && !classroomLocation) return showToast("Set the classroom location first.", "warning");
 
@@ -59,7 +61,7 @@ async function createSession() {
     try {
         const response = await fetch("/api/session/create", {
             method: "POST", headers: apiHeaders(),
-            body: JSON.stringify({ subject, duration, qrIntervalSec, requireDeviceBinding, radiusMeters, classroomLocation: requireLocation ? classroomLocation : null })
+            body: JSON.stringify({ subject, duration, qrIntervalSec, lateAfterMinutes, requireDeviceBinding, radiusMeters, classroomLocation: requireLocation ? classroomLocation : null })
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok) throw new Error(data.message || "Failed to create session");

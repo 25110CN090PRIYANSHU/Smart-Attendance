@@ -9,7 +9,7 @@
 <div class="bg-circle circle-one"></div><div class="bg-circle circle-two"></div><div class="bg-circle circle-three"></div>
 <nav class="navbar premium-navbar"><div class="brand"><div class="brand-icon">🛡️</div><div class="brand-text"><strong>SmartAttend X</strong><small>Teacher Security Console</small></div></div><div class="nav-right"><div class="teacher-status"><span class="online-dot"></span>Teacher Portal</div><button class="logout-top" onclick="logout()">Logout</button></div></nav>
 <main class="container premium-dashboard">
-<section class="welcome premium-welcome"><div><p class="small-title">SMARTATTEND X 2.0</p><h1 id="teacherName">Welcome, Teacher 👋</h1><p class="welcome-text">Run fast, privacy-first attendance with rotating QR, location verification, device binding and a risk engine.</p></div><div class="welcome-badge"><span>🔐</span> Secure Mode</div></section>
+<section class="welcome premium-welcome"><div><p class="small-title">SMARTATTEND X 3.0</p><h1 id="teacherName">Welcome, Teacher 👋</h1><p class="welcome-text">Run fast, privacy-first attendance with rotating QR, location verification, device binding, late tracking and a reviewable risk engine.</p></div><div class="welcome-badge"><span>🔐</span> Secure Mode</div></section>
 <section class="stats-grid">
 <div class="stat-card"><div class="stat-icon purple">🔄</div><div><span class="stat-label">QR Rotation</span><strong class="stat-number">10s</strong></div></div>
 <div class="stat-card"><div class="stat-icon blue">📍</div><div><span class="stat-label">Location</span><strong class="stat-number" id="locationStatus">Optional</strong></div></div>
@@ -22,7 +22,7 @@
 <p class="small-title">NEW SESSION</p><h2>Create Attendance Session</h2><p class="card-description">A new QR token is generated every few seconds. Old screenshots automatically become invalid.</p>
 <label for="subject">Subject</label><input id="subject" type="text" placeholder="e.g. Data Structures" maxlength="100" autocomplete="off">
 <label for="duration">Session duration</label><div class="duration-wrapper"><input id="duration" type="number" value="60" min="1" max="180"><span>minutes</span></div>
-<label for="qrInterval">QR refresh interval</label><div class="duration-wrapper"><input id="qrInterval" type="number" value="10" min="5" max="60"><span>seconds</span></div>
+<label for="lateAfter">Late after</label><div class="duration-wrapper"><input id="lateAfter" type="number" value="10" min="0" max="120"><span>minutes</span></div><label for="qrInterval">QR refresh interval</label><div class="duration-wrapper"><input id="qrInterval" type="number" value="10" min="5" max="60"><span>seconds</span></div>
 <div class="security-options"><label class="check-row"><input id="requireLocation" type="checkbox"><span><strong>Require classroom location</strong><small>Student must be inside the configured radius.</small></span></label><label class="check-row"><input id="requireDevice" type="checkbox" checked><span><strong>Bind student to device</strong><small>First verified device becomes the student's trusted device.</small></span></label></div>
 <div class="location-box"><div><strong>📍 Classroom location</strong><p id="locationText">Not configured — location checks are off.</p></div><button class="secondary-button" type="button" onclick="captureClassroomLocation()">Use my location</button></div>
 <label for="radiusMeters">Allowed radius</label><div class="duration-wrapper"><input id="radiusMeters" type="number" value="100" min="10" max="1000"><span>meters</span></div>

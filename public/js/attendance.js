@@ -32,15 +32,28 @@ async function loadAttendance() {
 }
 function displayAttendance(records) {
     const table = $("attendanceTable");
-    if (!records.length) { table.innerHTML = `<tr><td colspan="6" class="loading-cell">No attendance marked yet.</td></tr>`; return; }
+    if (!records.length) { table.innerHTML = `<tr><td colspan="7" class="loading-cell">No attendance marked yet.</td></tr>`; return; }
     table.innerHTML = records.map(record => {
         const s = record.studentId || {};
         const v = record.verification || {};
         const risk = Number(record.riskScore || 0);
         const riskText = risk >= 50 ? `⚠️ ${risk}` : `✓ ${risk}`;
-        return `<tr><td><strong>${esc(s.rollNumber || "-")}</strong></td><td><div class="student-name-cell"><div class="student-avatar">${initials(s.name)}</div><span>${esc(s.name || "Unknown")}</span></div><small>${esc(s.email || "-")}</small></td><td>${record.markedAt ? new Date(record.markedAt).toLocaleTimeString() : "-"}</td><td><span class="verification-badges">QR ${v.qr ? "✓" : "✕"} · GPS ${v.location ? "✓" : "—"} · Device ${v.device ? "✓" : "⚠"}</span></td><td>${riskText}${record.location?.distanceMeters != null ? `<small>${record.location.distanceMeters}m</small>` : ""}</td><td><span class="present-badge">● ${esc(record.status || "Present")}</span></td></tr>`;
+        const review = record.status === "Flagged" ? `<div class="review-actions"><button class="refresh-button" onclick="reviewAttendance('${record._id}','approve')">✓ Approve</button><button class="refresh-button" onclick="reviewAttendance('${record._id}','reject')">✕ Reject</button></div>` : (record.review?.reviewed ? "Reviewed" : "—"); return `<tr><td><strong>${esc(s.rollNumber || "-")}</strong></td><td><div class="student-name-cell"><div class="student-avatar"><img src="${s.profilePicture||''}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span>${initials(s.name)}</span></div><span>${esc(s.name || "Unknown")}</span></div><small>${esc(s.email || "-")}</small></td><td>${record.markedAt ? new Date(record.markedAt).toLocaleTimeString() : "-"}</td><td><span class="verification-badges">QR ${v.qr ? "✓" : "✕"} · GPS ${v.location ? "✓" : "—"} · Device ${v.device ? "✓" : "⚠"}</span></td><td>${riskText}${record.location?.distanceMeters != null ? `<small>${record.location.distanceMeters}m</small>` : ""}</td><td><span class="present-badge">● ${esc(record.status || "Present")}</span></td><td>${review}</td></tr>`;
     }).join("");
 }
+
+async function reviewAttendance(attendanceId, action) {
+    if (!attendanceId) return;
+    const note = action === "reject" ? (prompt("Optional reason for rejection:") || "") : "";
+    try {
+        const response = await fetch(`/api/attendance/${encodeURIComponent(attendanceId)}/review`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${attendanceToken}` }, body: JSON.stringify({ action, note }) });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.message || "Review failed");
+        showToast(data.message || "Attendance reviewed", "success");
+        loadAttendance();
+    } catch (error) { showToast(error.message || "Review failed", "error"); }
+}
+
 function searchAttendance() { const q = $("attendanceSearch").value.toLowerCase().trim(); if (!q) return displayAttendance(attendanceRecords); displayAttendance(attendanceRecords.filter(r => { const s = r.studentId || {}; return `${s.name || ""} ${s.email || ""} ${s.rollNumber || ""}`.toLowerCase().includes(q); })); }
 function exportAttendanceCSV() {
     if (!attendanceRecords.length) return showToast("No attendance to export.", "warning");

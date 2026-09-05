@@ -1,37 +1,36 @@
-# SmartAttend X 2.0
+# SmartAttend X 3.0
 
-A QR-based attendance system upgraded with short-lived rotating QR tokens, optional classroom geofencing, trusted-device binding, attendance risk scoring, live monitoring and CSV/PDF-friendly reports.
+A privacy-first QR attendance system with short-lived cryptographic QR tokens, classroom geofencing, trusted-device binding, late tracking, risk scoring and teacher review.
 
-## Main security flow
+## 3.0 highlights
+- Server-side HMAC QR tokens that rotate every 5–60 seconds.
+- Expiring QR sessions; old screenshots are rejected after the rotation grace period.
+- Optional classroom geofencing using browser GPS.
+- Optional trusted-device binding using an HMAC hash; raw device IDs are not stored.
+- Present/Late/Flagged/Rejected/Excused workflow.
+- Teacher review actions for flagged attendance.
+- Subject-wise student attendance breakdown.
+- Session summaries, CSV export and print-to-PDF.
+- Login and attendance request rate limiting.
+- Security headers and API validation.
+- Express 4 compatibility to avoid the Router.use object error from the previous Express 5 dependency.
 
-1. Teacher starts a session.
-2. Server creates a private QR secret and a session expiry time.
-3. The displayed QR changes every configured interval (default 10 seconds).
-4. The QR token is generated server-side with HMAC-SHA256; the secret is never sent to the browser.
-5. Student scans the current QR.
-6. Server validates the session, QR slot/token and duplicate attendance.
-7. If enabled, GPS location is checked against the classroom radius.
-8. If enabled, the student's first verified browser device is trusted and later devices are flagged.
-9. A risk score and verification flags are stored with the attendance record.
-10. Teacher sees live attendance and can export CSV or print/save a PDF report.
+## Run locally
+1. Install Node.js 18+.
+2. Copy `.env.example` to `.env`.
+3. Fill in `MONGO_URI`, `JWT_SECRET` and `DEVICE_HASH_SECRET`.
+4. Run `npm install`.
+5. Run `npm start`.
+6. Open `http://localhost:5000`.
 
-## Setup
+## Render
+Use:
+- Build command: `npm install`
+- Start command: `npm start`
+- Root directory: blank if the repository root contains `package.json`
+- Add the environment variables from `.env.example` in Render; never commit `.env`.
 
-Create a `.env` file from `.env.example` and set `MONGO_URI` and a JWT secret of at least 32 characters.
+## Important browser limitations
+GPS and camera permissions are browser-controlled. A normal web app cannot reliably read a phone's Wi-Fi BSSID, so SmartAttend does not fake Wi-Fi verification.
 
-```bash
-npm install
-npm start
-```
-
-Open `http://localhost:5000`.
-
-For camera and GPS access on phones, deploy over HTTPS. `localhost` is also treated as a secure context by modern browsers.
-
-## Important browser limitation
-
-A normal web browser cannot reliably expose the college Wi-Fi BSSID/network identity to JavaScript. This version therefore does **not** pretend to perform Wi-Fi verification. If you later build a native Android app, Wi-Fi/network verification can be added as another factor.
-
-## Existing database compatibility
-
-Older sessions that do not have the new `qrSecret` field are upgraded automatically the first time the session is opened. Existing attendance records remain readable.
+Risk scores are review signals, not proof of misconduct.

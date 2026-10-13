@@ -298,27 +298,6 @@ async function saveProfile(e) {
   }
 }
 
-async function loadNotifications() {
-  try {
-    const d = await api("/api/advanced/notifications");
-    $("notifications").innerHTML =
-      d.notifications
-        .map(
-          (n) =>
-            `<div class="smart-list-item"><div><strong>${
-              n.read ? "" : "🔔 "
-            }${esc(n.title)}</strong><small>${esc(n.message)} • ${new Date(
-              n.createdAt
-            ).toLocaleString()}</small></div><span class="pill">${esc(
-              n.type
-            )}</span></div>`
-        )
-        .join("") || "<p>No notifications.</p>";
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 async function logoutAll() {
   if (!confirm("Revoke all active logins for this account?")) return;
   try {
@@ -354,5 +333,4 @@ window.saveProfile = saveProfile;
 document.addEventListener("DOMContentLoaded", () => {
   loadProfile();
   loadStudentData();
-  loadNotifications();
 });

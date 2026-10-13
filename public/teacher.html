@@ -27,6 +27,7 @@
       <div class="nav-right">
         <span class="student-status"
           ><span class="online-dot"></span>Teacher Portal</span
+        ><button class="secondary-button" style="padding:6px 12px;font-size:13px;border-radius:8px;cursor:pointer;" onclick="openProfileModal()">✏️ Edit Profile</button
         ><button class="logout-top" onclick="logout()">Logout</button>
       </div>
     </nav>
@@ -41,6 +42,23 @@
           </p>
         </div>
         <div class="welcome-badge">🛡️ Anti-Proxy Enabled</div>
+      </section>
+
+      <section class="student-profile-card teacher-profile-card" style="margin-bottom: 24px;">
+        <div class="student-profile-icon" style="overflow:hidden;position:relative;">
+          <img id="teacherProfilePicture" alt="Profile" style="display:none;width:100%;height:100%;object-fit:cover;" />
+          <span id="teacherAvatarFallback">👨‍🏫</span>
+        </div>
+        <div class="student-profile-info">
+          <p class="small-title">FACULTY ACCOUNT</p>
+          <h2 id="teacherDisplayName">Teacher</h2>
+          <p id="teacherEmail">Loading…</p>
+          <p id="teacherDepartment" style="margin-top:2px;font-size:13px;opacity:0.85;">Department / Branch: —</p>
+        </div>
+        <div class="student-profile-status" style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+          <div><span class="online-dot"></span> Faculty Active</div>
+          <button class="secondary-button" style="padding:7px 14px;font-size:13px;border-radius:10px;cursor:pointer;" onclick="openProfileModal()">✏️ Edit Profile</button>
+        </div>
       </section>
       <div class="dashboard-grid">
         <section class="card premium-card">
@@ -187,6 +205,65 @@
         </div>
       </section>
     </main>
+
+    <!-- Teacher Edit Profile Modal -->
+    <div id="profileModal" class="modal-backdrop" hidden>
+      <div class="modal-card">
+        <button class="modal-close" type="button" onclick="closeProfileModal()">&times;</button>
+        <p class="small-title">MY ACCOUNT</p>
+        <h2>Edit Faculty Profile</h2>
+        <form id="profileForm" onsubmit="saveProfile(event)">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:14px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.18);border-radius:16px;">
+            <div class="student-profile-icon" style="width:72px;height:72px;min-width:72px;border-radius:50%;overflow:hidden;position:relative;background:#1e293b;border:2px solid rgba(99,102,241,0.3);">
+              <img id="editAvatarPreview" alt="Profile" style="display:none;width:100%;height:100%;object-fit:cover;" />
+              <span id="editAvatarFallback" style="font-size:32px;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">👨‍🏫</span>
+            </div>
+            <div style="flex:1;">
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:6px;">Profile Photo</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                <label class="secondary-button" style="padding:6px 12px;font-size:12px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+                  📷 Choose photo
+                  <input id="editAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="onAvatarFileSelected(event)" />
+                </label>
+                <button type="button" class="secondary-button danger-button" style="padding:6px 12px;font-size:12px;border-radius:8px;cursor:pointer;" onclick="removeAvatar()">Remove</button>
+              </div>
+              <small class="field-hint" style="font-size:11px;margin-top:4px;">JPG, PNG or WebP under 500KB</small>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Full Name *</label>
+              <input id="editName" placeholder="Full name" required />
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Email Address *</label>
+              <input id="editEmail" type="email" placeholder="Email" required />
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Department / Branch</label>
+              <input id="editBranch" placeholder="e.g. Computer Science & Engineering (CSE)" />
+            </div>
+          </div>
+
+          <div style="margin-top:16px;padding:14px;background:rgba(2,6,23,0.3);border:1px solid rgba(148,163,184,0.18);border-radius:14px;">
+            <p style="font-size:12px;font-weight:700;margin-bottom:8px;color:#93c5fd;">🔐 Change Password (Optional)</p>
+            <div class="form-grid">
+              <input id="editCurrentPassword" type="password" placeholder="Current password" autocomplete="current-password" />
+              <input id="editNewPassword" type="password" placeholder="New password (min 6 chars)" autocomplete="new-password" />
+            </div>
+            <small class="field-hint" style="font-size:11px;margin-top:4px;">Leave password fields blank to keep your existing password.</small>
+          </div>
+
+          <p id="profileMessage" class="form-message" style="margin:12px 0 0;"></p>
+
+          <div class="button-row" style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end;">
+            <button type="button" class="secondary-button" onclick="closeProfileModal()">Cancel</button>
+            <button id="saveProfileBtn" type="submit" class="primary-button">💾 Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <script src="js/toast.js"></script>
     <script src="js/teacher.js"></script>
     <script src="js/darkmode.js"></script>

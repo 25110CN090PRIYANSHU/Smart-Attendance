@@ -48,6 +48,93 @@ router.get("/me", authenticate, async (req, res) => {
   }
 });
 
+router.patch("/profile", authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const name = req.body.name !== undefined ? String(req.body.name).trim() : null;
+    const email = req.body.email !== undefined ? cleanEmail(req.body.email) : null;
+    const branch = req.body.branch !== undefined ? String(req.body.branch).trim() : null;
+    const year = req.body.year !== undefined ? String(req.body.year).trim() : null;
+    const section = req.body.section !== undefined ? String(req.body.section).trim() : null;
+    const rollNumber = req.body.rollNumber !== undefined ? String(req.body.rollNumber).trim() : null;
+    const profilePicture = req.body.profilePicture;
+    const currentPassword = req.body.currentPassword ? String(req.body.currentPassword) : null;
+    const newPassword = req.body.newPassword ? String(req.body.newPassword) : null;
+
+    if (name !== null) {
+      if (name.length < 2) return res.status(400).json({ message: "Name must be at least 2 characters" });
+      user.name = name;
+    }
+
+    if (email !== null && email !== user.email) {
+      if (!/^\S+@\S+\.\S+$/.test(email)) return res.status(400).json({ message: "Enter a valid email address" });
+      const emailExists = await User.findOne({ email, _id: { $ne: user._id } });
+      if (emailExists) return res.status(400).json({ message: "Email is already taken by another account" });
+      user.email = email;
+    }
+
+    if (branch !== null) user.branch = branch;
+    if (year !== null) user.year = year;
+    if (section !== null) user.section = section;
+
+    if (user.role === "student" && rollNumber !== null) {
+      if (!rollNumber) return res.status(400).json({ message: "Roll number cannot be empty for students" });
+      const rollExists = await User.findOne({ rollNumber, _id: { $ne: user._id } });
+      if (rollExists) return res.status(400).json({ message: "Roll number already registered to another student" });
+      user.rollNumber = rollNumber;
+    }
+
+    if (profilePicture !== undefined) {
+      if (!profilePicture) {
+        user.profilePicture = "";
+      } else {
+        user.profilePicture = safePicture(profilePicture);
+      }
+    }
+
+    if (newPassword) {
+      if (newPassword.length < 6) {
+        return res.status(400).json({ message: "New password must be at least 6 characters" });
+      }
+      if (!currentPassword) {
+        return res.status(400).json({ message: "Current password is required to change password" });
+      }
+      const validCurrent = await bcrypt.compare(currentPassword, user.password);
+      if (!validCurrent) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+      user.password = await bcrypt.hash(newPassword, 12);
+    }
+
+    await user.save();
+
+    try {
+      await Notification.create({
+        userId: user._id,
+        title: "Profile updated",
+        message: `Your profile details were updated on ${new Date().toLocaleString()}.`,
+        type: "info",
+      });
+    } catch (_) {}
+
+    res.json({
+      message: "Profile updated successfully",
+      user: publicUser(user),
+    });
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res.status(500).json({ message: error.message || "Failed to update profile" });
+  }
+});
+
+router.put("/profile", authenticate, async (req, res) => {
+  // Delegate PUT to PATCH handler logic
+  req.method = "PATCH";
+  return router.handle(req, res);
+});
+
 router.post("/register", async (req, res) => {
   try {
     const name = String(req.body.name || "").trim();

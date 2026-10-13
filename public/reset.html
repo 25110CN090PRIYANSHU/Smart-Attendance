@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light-mode">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dark-pro.css" />
   </head>
-  <body class="login-page">
+  <body class="login-page light-mode">
+    <button
+      id="darkModeToggle"
+      class="dark-mode-toggle"
+      onclick="toggleDarkMode()"
+    >
+      🌙
+    </button>
     <main class="login-container">
       <section class="login-card" style="margin: auto">
         <div class="login-card-header">
@@ -68,5 +75,6 @@
         }
       }
     </script>
+    <script src="js/darkmode.js"></script>
   </body>
 </html>

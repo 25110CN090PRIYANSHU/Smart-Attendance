@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light-mode">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dark-pro.css" />
   </head>
-  <body>
+  <body class="light-mode">
     <button
       id="darkModeToggle"
       class="dark-mode-toggle"
@@ -54,10 +54,6 @@
           <h2 id="teacherDisplayName">Teacher</h2>
           <p id="teacherEmail">Loading…</p>
           <p id="teacherDepartment" style="margin-top:2px;font-size:13px;opacity:0.85;">Department / Branch: —</p>
-        </div>
-        <div class="student-profile-status" style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
-          <div><span class="online-dot"></span> Faculty Active</div>
-          <button class="secondary-button" style="padding:7px 14px;font-size:13px;border-radius:10px;cursor:pointer;" onclick="openProfileModal()">✏️ Edit Profile</button>
         </div>
       </section>
       <div class="dashboard-grid">

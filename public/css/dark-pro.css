@@ -4,6 +4,28 @@
    Layered over the existing styles to preserve app behavior.
 ========================================================= */
 :root {
+  color-scheme: light;
+  --sx-bg: #f3f6fc;
+  --sx-bg-elevated: #ffffff;
+  --sx-panel: rgba(255, 255, 255, .96);
+  --sx-panel-solid: #ffffff;
+  --sx-panel-hover: #f8fafc;
+  --sx-border: rgba(71, 85, 105, .16);
+  --sx-border-strong: rgba(96, 165, 250, .34);
+  --sx-blue: #3b82f6;
+  --sx-blue-bright: #2563eb;
+  --sx-blue-soft: rgba(59, 130, 246, .14);
+  --sx-text: #172033;
+  --sx-muted: #526176;
+  --sx-subtle: #718096;
+  --sx-green: #10b981;
+  --sx-amber: #f59e0b;
+  --sx-red: #ef4444;
+  --sx-radius: 18px;
+  --sx-shadow: 0 18px 45px rgba(15, 23, 42, .08);
+}
+
+:root.dark-mode, html.dark-mode, body.dark-mode {
   color-scheme: dark;
   --sx-bg: #0b1220;
   --sx-bg-elevated: #0f1a2c;
@@ -25,17 +47,46 @@
   --sx-shadow: 0 20px 60px rgba(0, 0, 0, .24);
 }
 
-html { min-height: 100%; background: var(--sx-bg); scroll-behavior: smooth; }
+html {
+  min-height: 100%;
+  background: #f3f6fc !important;
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html.dark-mode {
+  background: #0b1220 !important;
+  color-scheme: dark;
+}
+
+html.light-mode,
+html:not(.dark-mode) {
+  --sx-bg: #f3f6fc !important;
+  background: #f3f6fc !important;
+  color-scheme: light;
+}
+
 body {
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 30px !important;
   background:
-    radial-gradient(ellipse at 12% -10%, rgba(37, 99, 235, .16), transparent 34rem),
-    radial-gradient(ellipse at 100% 15%, rgba(14, 165, 233, .08), transparent 30rem),
-    var(--sx-bg) !important;
-  color: var(--sx-text) !important;
+    radial-gradient(ellipse at 12% -10%, rgba(37, 99, 235, .10), transparent 34rem),
+    #f3f6fc !important;
+  color: #172033 !important;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif !important;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+}
+
+body.dark-mode {
+  background:
+    radial-gradient(ellipse at 12% -10%, rgba(37, 99, 235, .16), transparent 34rem),
+    radial-gradient(ellipse at 100% 15%, rgba(14, 165, 233, .08), transparent 30rem),
+    #0b1220 !important;
+  color: var(--sx-text) !important;
+  color-scheme: dark;
 }
 ::selection { color: #fff; background: rgba(59, 130, 246, .48); }
 a { color: var(--sx-blue-bright); text-underline-offset: 3px; }
@@ -204,39 +255,140 @@ tbody tr:hover { background: rgba(59,130,246,.07) !important; }
 }
 .dark-mode-toggle:hover { transform: rotate(-8deg) translateY(-1px); background: #1e293b !important; }
 
-/* Optional light mode remains available through the existing toggle. */
-body.light-mode {
+/* Light mode is default; fully supported via light-mode class or when dark-mode is not active */
+body.light-mode,
+body:not(.dark-mode) {
   color-scheme: light;
+  --sx-bg: #f3f6fc !important;
   --sx-text: #172033; --sx-muted: #526176; --sx-subtle: #718096;
   --sx-border: rgba(71,85,105,.16); --sx-panel: rgba(255,255,255,.96);
   background: radial-gradient(ellipse at 12% -10%, rgba(37,99,235,.10), transparent 34rem), #f3f6fc !important;
   color: #172033 !important;
+  padding-bottom: 36px !important;
 }
-body.light-mode .navbar, body.light-mode .premium-navbar { background: rgba(255,255,255,.9) !important; }
+
+body.light-mode .navbar, body.light-mode .premium-navbar,
+body:not(.dark-mode) .navbar, body:not(.dark-mode) .premium-navbar {
+  background: rgba(255,255,255,.92) !important;
+  border-bottom: 1px solid rgba(226,232,240,.9) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.05) !important;
+}
+
 body.light-mode .brand-text strong, body.light-mode .welcome h1, body.light-mode .card h2,
 body.light-mode .premium-card h2, body.light-mode .login-card h2, body.light-mode .register-card h2,
-body.light-mode .stat-number, body.light-mode .big-metric { color: #172033 !important; }
+body.light-mode .stat-number, body.light-mode .big-metric,
+body:not(.dark-mode) .brand-text strong, body:not(.dark-mode) .welcome h1, body:not(.dark-mode) .card h2,
+body:not(.dark-mode) .premium-card h2, body:not(.dark-mode) .login-card h2, body:not(.dark-mode) .register-card h2,
+body:not(.dark-mode) .stat-number, body:not(.dark-mode) .big-metric {
+  color: #172033 !important;
+}
+
 body.light-mode .card, body.light-mode .premium-card, body.light-mode .stat-card,
 body.light-mode .student-profile-card, body.light-mode .attendance-card, body.light-mode .info-card,
 body.light-mode .ai-card, body.light-mode .login-card, body.light-mode .register-card,
 body.light-mode .scanner-card, body.light-mode .modal-card, body.light-mode .register-benefit,
-body.light-mode .login-feature, body.light-mode .scanner-tip {
-  background: rgba(255,255,255,.96) !important; color: #172033 !important;
-  border-color: rgba(71,85,105,.16) !important; box-shadow: 0 18px 45px rgba(15,23,42,.08) !important;
+body.light-mode .login-feature, body.light-mode .scanner-tip,
+body:not(.dark-mode) .card, body:not(.dark-mode) .premium-card, body:not(.dark-mode) .stat-card,
+body:not(.dark-mode) .student-profile-card, body:not(.dark-mode) .attendance-card, body:not(.dark-mode) .info-card,
+body:not(.dark-mode) .ai-card, body:not(.dark-mode) .login-card, body:not(.dark-mode) .register-card,
+body:not(.dark-mode) .scanner-card, body:not(.dark-mode) .modal-card, body:not(.dark-mode) .register-benefit,
+body:not(.dark-mode) .login-feature, body:not(.dark-mode) .scanner-tip {
+  background: rgba(255,255,255,.98) !important;
+  color: #172033 !important;
+  border-color: rgba(226,232,240,.9) !important;
+  box-shadow: 0 14px 40px rgba(15,23,42,.06) !important;
 }
+
 body.light-mode .welcome-text, body.light-mode .card-description, body.light-mode .student-profile-info p,
-body.light-mode .login-intro > p:not(.small-title), body.light-mode .register-intro > p:not(.small-title) { color: #526176 !important; }
+body.light-mode .login-intro > p:not(.small-title), body.light-mode .register-intro > p:not(.small-title),
+body.light-mode .stat-label, body.light-mode .field-hint,
+body:not(.dark-mode) .welcome-text, body:not(.dark-mode) .card-description, body:not(.dark-mode) .student-profile-info p,
+body:not(.dark-mode) .login-intro > p:not(.small-title), body:not(.dark-mode) .register-intro > p:not(.small-title),
+body:not(.dark-mode) .stat-label, body:not(.dark-mode) .field-hint {
+  color: #526176 !important;
+}
+
 body.light-mode input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
-body.light-mode select, body.light-mode textarea { color: #172033 !important; }
+body.light-mode select, body.light-mode textarea,
+body:not(.dark-mode) input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+body:not(.dark-mode) select, body:not(.dark-mode) textarea {
+  color: #172033 !important;
+}
+
 body.light-mode .input-wrapper, body.light-mode .register-input-wrapper,
-body.light-mode .search-input, body.light-mode .table-search { background: #f8fafc !important; border-color: #d7dfeb !important; }
-body.light-mode th { background: #eaf1fb !important; color: #1d4ed8 !important; }
-body.light-mode td { color: #334155 !important; }
-body.light-mode .tabbar { background: #e9eff8 !important; }
-body.light-mode .tab { color: #526176 !important; }
-body.light-mode .tab.active { color: #fff !important; }
-body.light-mode .scanner-info-item { background: #f8fafc !important; }
-body.light-mode .scanner-info-item strong, body.light-mode .status-content strong { color: #172033 !important; }
+body.light-mode .search-input, body.light-mode .table-search,
+body:not(.dark-mode) .input-wrapper, body:not(.dark-mode) .register-input-wrapper,
+body:not(.dark-mode) .search-input, body:not(.dark-mode) .table-search {
+  background: #f8fafc !important;
+  border-color: #d7dfeb !important;
+}
+
+body.light-mode th, body:not(.dark-mode) th { background: #eaf1fb !important; color: #1d4ed8 !important; }
+body.light-mode td, body:not(.dark-mode) td { color: #334155 !important; border-color: #e2e8f0 !important; }
+body.light-mode tr, body:not(.dark-mode) tr { border-color: #e2e8f0 !important; }
+body.light-mode .attendance-table-wrapper, body:not(.dark-mode) .attendance-table-wrapper { border-color: #e2e8f0 !important; }
+body.light-mode .tabbar, body:not(.dark-mode) .tabbar { background: #e9eff8 !important; border-color: #dbe4f0 !important; }
+body.light-mode .tab, body:not(.dark-mode) .tab { color: #526176 !important; }
+body.light-mode .tab.active, body:not(.dark-mode) .tab.active { color: #fff !important; background: #2563eb !important; }
+body.light-mode .scanner-info-item, body:not(.dark-mode) .scanner-info-item { background: #f8fafc !important; border-color: #e2e8f0 !important; }
+body.light-mode .scanner-info-item strong, body.light-mode .status-content strong,
+body:not(.dark-mode) .scanner-info-item strong, body:not(.dark-mode) .status-content strong { color: #172033 !important; }
+
+body.light-mode .logout-top, body.light-mode .secondary-button, body.light-mode .refresh-button, body.light-mode .scanner-back-button,
+body:not(.dark-mode) .logout-top, body:not(.dark-mode) .secondary-button, body:not(.dark-mode) .refresh-button, body:not(.dark-mode) .scanner-back-button {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(71,85,105,.2) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.04) !important;
+}
+body.light-mode .logout-top:hover, body.light-mode .secondary-button:hover, body.light-mode .refresh-button:hover, body.light-mode .scanner-back-button:hover,
+body:not(.dark-mode) .logout-top:hover, body:not(.dark-mode) .secondary-button:hover, body:not(.dark-mode) .refresh-button:hover, body:not(.dark-mode) .scanner-back-button:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+body.light-mode .dark-mode-toggle, body:not(.dark-mode) .dark-mode-toggle {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(71,85,105,.2) !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.08) !important;
+}
+body.light-mode .dark-mode-toggle:hover, body:not(.dark-mode) .dark-mode-toggle:hover {
+  background: #f1f5f9 !important;
+}
+
+body.light-mode .student-status, body.light-mode .teacher-status, body.light-mode .welcome-badge, body.light-mode .pill,
+body:not(.dark-mode) .student-status, body:not(.dark-mode) .teacher-status, body:not(.dark-mode) .welcome-badge, body:not(.dark-mode) .pill {
+  background: #eef2ff !important;
+  color: #2563eb !important;
+  border: 1px solid rgba(59,130,246,.2) !important;
+}
+
+body.light-mode .student-profile-icon, body.light-mode .student-avatar, body.light-mode .avatar-wrap,
+body:not(.dark-mode) .student-profile-icon, body:not(.dark-mode) .student-avatar, body:not(.dark-mode) .avatar-wrap {
+  background: #eef2ff !important;
+}
+
+body.light-mode .login-security, body.light-mode .register-security,
+body:not(.dark-mode) .login-security, body:not(.dark-mode) .register-security {
+  color: #526176 !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode .secure-note, body:not(.dark-mode) .secure-note {
+  color: #1e40af !important;
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+
+body.light-mode .progress-track, body:not(.dark-mode) .progress-track {
+  background: #e2e8f0 !important;
+}
+
+body.light-mode .modal-backdrop, body:not(.dark-mode) .modal-backdrop {
+  background: rgba(15,23,42,.45) !important;
+}
 
 @keyframes sx-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) {

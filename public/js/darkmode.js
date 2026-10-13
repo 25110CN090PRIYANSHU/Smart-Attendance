@@ -1,37 +1,22 @@
-// ===============================
-// DARK MODE
-// ===============================
-
+// SmartAttend-X theme preference: Dark Pro is the default; light mode is optional.
 function toggleDarkMode() {
-
-    document.body.classList.toggle("dark-mode");
-
-    // Save current mode
-    if (document.body.classList.contains("dark-mode")) {
-
-        localStorage.setItem("darkMode", "enabled");
-
-    } else {
-
-        localStorage.setItem("darkMode", "disabled");
-
-    }
+  const useLight = !document.body.classList.contains("light-mode");
+  document.body.classList.toggle("light-mode", useLight);
+  localStorage.setItem("darkMode", useLight ? "disabled" : "enabled");
+  updateThemeToggle();
 }
 
-
-// ===============================
-// LOAD SAVED MODE
-// ===============================
+function updateThemeToggle() {
+  const button = document.getElementById("darkModeToggle");
+  if (!button) return;
+  const isLight = document.body.classList.contains("light-mode");
+  button.textContent = isLight ? "☀️" : "☾";
+  button.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
+  button.setAttribute("title", isLight ? "Switch to dark mode" : "Switch to light mode");
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    const darkMode =
-        localStorage.getItem("darkMode");
-
-    if (darkMode === "enabled") {
-
-        document.body.classList.add("dark-mode");
-
-    }
-
+  // Default to Dark Pro unless the user explicitly saved light mode.
+  document.body.classList.toggle("light-mode", localStorage.getItem("darkMode") === "disabled");
+  updateThemeToggle();
 });

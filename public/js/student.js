@@ -93,12 +93,15 @@ function updateProfileDisplay(u) {
   }
 
   const pPic = $("studentProfilePicture");
+  const fallback = $("studentAvatarFallback") || pPic?.nextElementSibling;
   if (u.profilePicture) {
     pPic.src = u.profilePicture;
     pPic.style.display = "block";
+    if (fallback) fallback.style.display = "none";
   } else {
     pPic.removeAttribute("src");
     pPic.style.display = "none";
+    if (fallback) fallback.style.display = "flex";
   }
 }
 

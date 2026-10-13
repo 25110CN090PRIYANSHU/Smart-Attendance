@@ -280,3 +280,38 @@ body.light-mode .scanner-info-item strong, body.light-mode .status-content stron
   .button-row { flex-direction: column; align-items: stretch; }
   .button-row button { width: 100%; }
 }
+
+/* Fix avatar and profile picture display */
+.student-profile-icon, .student-avatar, .avatar-wrap {
+  position: relative !important;
+  overflow: hidden !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.student-profile-icon img, .student-avatar img, .avatar-wrap img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 2 !important;
+  border-radius: inherit !important;
+}
+.student-profile-icon span, .student-avatar span, .avatar-wrap span {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1 !important;
+  border-radius: inherit !important;
+}
+.student-avatar img:not([src]), .student-avatar img[src=""],
+.student-profile-icon img:not([src]), .student-profile-icon img[src=""],
+.avatar-wrap img:not([src]), .avatar-wrap img[src=""] {
+  display: none !important;
+}
+
